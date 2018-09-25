@@ -1,0 +1,62 @@
+{
+  "name": "stylelint-value-no-unknown-custom-properties",
+  "version": "1.0.0",
+  "description": "A stylelint rule to disallow usage of unknown custom properties",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "license": "CC0-1.0",
+  "repository": "csstools/stylelint-value-no-unknown-custom-properties",
+  "homepage": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties#readme",
+  "bugs": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties/issues",
+  "main": "index.cjs.js",
+  "module": "index.es.mjs",
+  "files": [
+    "index.cjs.js",
+    "index.cjs.js.map",
+    "index.es.mjs",
+    "index.es.mjs.map"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm test",
+    "pretest": "rollup -c .rollup.js --silent",
+    "test": "echo 'Running tests...'; npm run test:js && npm run test:tape",
+    "test:js": "eslint *.js --cache --ignore-path .gitignore --quiet",
+    "test:tape": "tape ./.tape.js | tap-spec"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "postcss-values-parser": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-eslint": "^9.0.0",
+    "eslint": "^5.6.0",
+    "eslint-config-dev": "^2.0.0",
+    "pre-commit": "^1.2.2",
+    "rollup": "^0.66.2",
+    "rollup-plugin-babel": "^4.0.3",
+    "stylelint": "^9.5.0",
+    "stylelint-test-rule-tape": "^0.2.0",
+    "tap-spec": "^5.0.0"
+  },
+  "peerDependencies": {
+    "stylelint": "^9.5.0"
+  },
+  "eslintConfig": {
+    "extends": "dev",
+    "parser": "babel-eslint"
+  },
+  "keywords": [
+    "stylelint",
+    "stylelint-plugin",
+    "css",
+    "lint",
+    "custom",
+    "property",
+    "properties",
+    "var"
+  ]
+}
