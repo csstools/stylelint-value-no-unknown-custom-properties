@@ -1,16 +1,42 @@
-# No Unknown Custom Properties [<img src="https://jonathantneal.github.io/stylelint-logo.svg" alt="stylelint" width="90" height="90" align="right">][stylelint]
+# Value No Unknown Custom Properties [<img src="https://jonathantneal.github.io/stylelint-logo.svg" alt="stylelint" width="90" height="90" align="right">][stylelint]
 
 [![NPM Version][npm-img]][npm-url]
 [![Build Status][cli-img]][cli-url]
 [![Support Chat][git-img]][git-url]
 
-[No Unknown Custom Properties] is a [stylelint] rule to disallow usage of unknown custom properties.
+[Value No Unknown Custom Properties] is a [stylelint] rule to disallow usage of
+unknown custom properties.
 
----
+## Usage
 
-The following patterns are _not_ considered violations:
+Add [stylelint] and [Value No Unknown Custom Properties] to your project.
 
-```pcss
+```bash
+npm install stylelint stylelint-value-no-unknown-custom-properties --save-dev
+```
+
+Add [Value No Unknown Custom Properties] to your [stylelint configuration].
+
+```js
+{
+  "plugins": [
+    "stylelint-value-no-unknown-custom-properties"
+  ],
+  "rules": {
+    "csstools/value-no-unknown-custom-properties": true || false || null
+  }
+}
+```
+
+## Options
+
+### true
+
+If the first option is `true`, then [Value No Unknown Custom Properties]
+requires all custom properties to be known, and the following patterns are
+_not_ considered violations:
+
+```css
 :root {
   --brand-blue: #33f;
 }
@@ -20,7 +46,7 @@ The following patterns are _not_ considered violations:
 }
 ```
 
-```pcss
+```css
 .example {
   color: var(--brand-blue);
 }
@@ -30,51 +56,41 @@ The following patterns are _not_ considered violations:
 }
 ```
 
-```pcss
+```css
 :root {
   --brand-blue: #33f;
   --brand-color: var(--brand-blue);
 }
 ```
 
----
+While the following patterns are considered violations:
 
-The following patterns are considered violations:
-
-```pcss
+```css
 .example {
   color: var(--brand-blue);
 }
 ```
 
-```pcss
+```css
 :root {
   --brand-color: var(--brand-blue);
 }
 ```
 
-## Usage
+Custom Properties can be imported using the second option.
 
-Add [No Unknown Custom Properties] as a [stylelint] plugin.
+### false
 
-```js
-// .stylelintrc
-{
-  "plugins": [
-    "stylelint-value-no-unknown-custom-properties"
-  ],
-  "rules": {
-    "value-no-unknown-custom-properties": true
-  }
-}
-```
+If the first option is `false` or `null`, then
+[Value No Unknown Custom Properties] does nothing.
 
-## Options
+---
 
 ### importFrom
 
-The `importFrom` option specifies sources where Custom Properties can be imported
-from, which might be CSS, JS, and JSON files, functions, and directly passed
+When the first option is `true`, then the second option can specify sources
+where Custom Properties should be imported from by using an `importFrom` key.
+These imports might be CSS, JS, and JSON files, functions, and directly passed
 objects.
 
 ```js
@@ -84,53 +100,23 @@ objects.
     "stylelint-value-no-unknown-custom-properties"
   ],
   "rules": {
-    "value-no-unknown-custom-properties": {
-      "importFrom": "path/to/file.css" // => :root { --color: red }
-    }
-  }
-}
-```
-
-Multiple sources can be passed into this option, and they will be parsed in the
-order they are received. JavaScript files, JSON files, functions, and objects
-will need to namespace Custom Properties using the `customProperties` or
-`custom-properties` key.
-
-```js
-// .stylelintrc
-{
-  "plugins": [
-    "stylelint-value-no-unknown-custom-properties"
-  ],
-  "rules": {
-    "value-no-unknown-custom-properties": {
+    "csstools/value-no-unknown-custom-properties": [true, {
       "importFrom": [
-        "path/to/file.css",   // :root { --color: red; }
-        "and/then/this.js",   // module.exports = { customProperties: { '--color': 'red' } }
-        "and/then/that.json", // { "custom-properties": { "--color": "red" } }
-        {
-          customProperties: { "--color": "red" }
-        },
-        () => {
-          const customProperties = { "--color": "red" };
-
-          return { customProperties };
-        }
+        "path/to/file.css", // => :root { --brand-blue: #33f; }
+        "path/to/file.json" // => { "custom-properties": { "--brand-blue": "#33f" } }
       ]
     }
   }
 }
 ```
 
-See example imports written in [CSS](test/import.css), [JS](test/import.js),
-and [JSON](test/import.json).
-
 [cli-img]: https://img.shields.io/travis/csstools/stylelint-value-no-unknown-custom-properties.svg
 [cli-url]: https://travis-ci.org/csstools/stylelint-value-no-unknown-custom-properties
 [git-img]: https://img.shields.io/badge/support-chat-blue.svg
-[git-url]: https://gitter.im/postcss/postcss
+[git-url]: https://gitter.im/stylelint/stylelint
 [npm-img]: https://img.shields.io/npm/v/stylelint-value-no-unknown-custom-properties.svg
 [npm-url]: https://www.npmjs.com/package/stylelint-value-no-unknown-custom-properties
 
-[No Unknown Custom Properties]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties
-[stylelint]: https://stylelint.io/
+[stylelint]: https://github.com/stylelint/stylelint
+[stylelint configuration]: https://github.com/stylelint/stylelint/blob/master/docs/user-guide/configuration.md#readme
+[Value No Unknown Custom Properties]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties

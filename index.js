@@ -1,27 +1,28 @@
 import stylelint from 'stylelint';
 import getCustomPropertiesFromRoot from './lib/get-custom-properties-from-root';
 import getCustomPropertiesFromImports from './lib/get-custom-properties-from-imports';
-import messages from './lib/messages';
+import validateResult from './lib/validate-result';
 import ruleName from './lib/rule-name';
-import validateRoot from './lib/validate-root';
 
-export default stylelint.createPlugin(ruleName, pluginOpts => {
+export default stylelint.createPlugin(ruleName, (method, opts) => {
 	// sources to import custom selectors from
-	const importFrom = [].concat(Object(pluginOpts).importFrom || []);
+	const importFrom = [].concat(Object(opts).importFrom || []);
 
 	// promise any custom selectors are imported
-	const customPropertiesPromise = getCustomPropertiesFromImports(importFrom);
+	const customPropertiesPromise = isMethodEnabled(method)
+		? getCustomPropertiesFromImports(importFrom)
+	: {};
 
 	return async (root, result) => {
-		// validate options
-		const validOptions = stylelint.utils.validateOptions(result, ruleName, {
-			actual: Object(pluginOpts),
-			possible: {
-				importFrom: function() { return true; }
+		// validate the method
+		const isMethodValid = stylelint.utils.validateOptions(result, ruleName, {
+			actual: method,
+			possible() {
+				return isMethodEnabled(method) || isMethodDisabled(method);
 			}
 		});
 
-		if (validOptions) {
+		if (isMethodValid && isMethodEnabled(method)) {
 			// all custom properties from the file and imports
 			const customProperties = Object.assign(
 				await customPropertiesPromise,
@@ -29,9 +30,12 @@ export default stylelint.createPlugin(ruleName, pluginOpts => {
 			);
 
 			// validate the css root
-			validateRoot(root, { customProperties, messages, result });
+			validateResult(result, customProperties);
 		}
 	};
 });
 
-export { ruleName, messages }
+export { ruleName }
+
+const isMethodEnabled = method => method === true;
+const isMethodDisabled = method => method === null || method === false;

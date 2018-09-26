@@ -1,104 +1,104 @@
 const test = require('stylelint-test-rule-tape');
 const { default: { rule }, ruleName } = require('.');
+const skipBasicChecks = true;
+let accept = [], reject = [];
 
-/* Test: Basic Checks
+/* Test basic checks
 /* ========================================================================== */
 
-test(rule, {
-	ruleName: ruleName,
-	config: null
-});
+test(rule, { ruleName, config: null });
+test(rule, { ruleName, config: false });
+test(rule, { ruleName, config: true });
 
-/* Test: Declared Custom Properties
+/* Test disabled
 /* ========================================================================== */
 
-test(rule, {
-	ruleName: ruleName,
-	config: null,
-	skipBasicChecks: true,
-	accept: [
-		{ code: 'body { --brand-blue: #33f; color: var(--brand-blue); }' },
-		{ code: ':root { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
-		{ code: 'html { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
-		{ code: '* { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
-		{ code: '.anything { --brand-blue: #33f; } body { color: var(--brand-blue); }' }
-	],
-	reject: [
-		{ code: 'body { color: var(--brand-blue); }' }
-	]
-});
+accept = [
+	{ code: 'body { color: var(--brand-blue); }', description: 'ignored custom property' }
+];
 
-test(rule, {
-	ruleName: ruleName,
-	config: null,
-	skipBasicChecks: true,
-	accept: [
-		{ code: ':root { --brand-blue: #33f; --brand-color: var(--brand-blue); }' }
-	]
-});
+test(rule, { ruleName, skipBasicChecks, config: null, accept });
+test(rule, { ruleName, skipBasicChecks, config: false, accept });
 
-/* Test: Custom Properties with a Fallback
+/* Test enabled
 /* ========================================================================== */
 
-test(rule, {
-	ruleName: ruleName,
-	config: null,
-	skipBasicChecks: true,
-	accept: [
-		{ code: 'body { color: var(--brand-blue, #33f); }' }
-	]
-});
+accept = [
+	{ code: 'body { --brand-blue: #33f; color: var(--brand-blue); }' },
+	{ code: ':root { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
+	{ code: 'html { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
+	{ code: '* { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
+	{ code: '.anything { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
+	{ code: ':root { --brand-blue: #33f; --brand-color: var(--brand-blue); }' }
+];
+reject = [
+	{ code: 'body { color: var(--brand-blue); }' }
+];
 
-/* Test: Non Custom Properties or Incomplete Custom Properties
+test(rule, { ruleName, skipBasicChecks, config: true, accept, reject });
+
+/* Test fallbacks
 /* ========================================================================== */
 
-test(rule, {
-	ruleName: ruleName,
-	config: null,
-	skipBasicChecks: true,
-	accept: [
-		{ code: 'body { color: brand-blue; }' },
-		{ code: 'body { color: var(); }' }
-	]
-});
+accept = [
+	{ code: 'body { color: var(--brand-blue, #33f); }' }
+];
+reject = [
+	{ code: 'body { color: var(--brand-blue, var(--brand-red)); }' }
+];
+test(rule, { ruleName, skipBasicChecks, config: true, accept, reject });
 
-/* Test: Imported Custom Properties
+/* Test enabled: not var()s
 /* ========================================================================== */
 
+accept = [
+	{ code: 'body { color: brand-blue; }' },
+	{ code: 'body { color: var(); }' }
+];
+
+test(rule, { ruleName, skipBasicChecks, config: true, accept });
+
+/* Test enabled: { importFrom }
+/* ========================================================================== */
+
+accept = [
+	{ code: 'body { color: var(--brand-blue); }' }
+];
+reject = [
+	{ code: 'body { color: var(--brand-blu); }' },
+	{ code: 'body { color: var(--brand-bluez); }' }
+];
+
 test(rule, {
-	ruleName: ruleName,
-	config: {
+	ruleName,
+	config: [true, {
 		importFrom: {
 			customProperties: {
 				'--brand-blue': '#fff'
 			}
 		}
-	},
-	skipBasicChecks: true,
-	accept: [
-		{ code: 'body { color: var(--brand-blue); }' }
-	],
-	reject: [
-		{ code: 'body { color: var(--brand-blu); }' },
-		{ code: 'body { color: var(--brand-bluez); }' }
-	]
+	}],
+	skipBasicChecks
 });
 
+accept = [
+	{ code: 'body { background-color: var(--brand-red); border-color: var(--brand-white); color: var(--brand-blue); }' }
+];
+reject = [
+	{ code: 'body { color: var(--brand-blu); }' },
+	{ code: 'body { color: var(--brand-bluez); }' }
+];
+
 test(rule, {
-	ruleName: ruleName,
-	config: [{
+	ruleName,
+	config: [true, {
 		importFrom: [
-			'test/import.js',
-			'test/import.json',
-			'test/import.css'
+			'test/import-custom-properties.js',
+			'test/import-custom-properties.json',
+			'test/import-custom-properties.css'
 		]
 	}],
-	skipBasicChecks: true,
-	accept: [
-		{ code: 'body { background-color: var(--brand-red); border-color: var(--brand-white); color: var(--brand-blue); }' }
-	],
-	reject: [
-		{ code: 'body { color: var(--brand-blu); }' },
-		{ code: 'body { color: var(--brand-bluez); }' }
-	]
+	skipBasicChecks,
+	accept,
+	reject
 });
