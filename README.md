@@ -105,7 +105,7 @@ objects.
         "path/to/file.css", // => :root { --brand-blue: #33f; }
         "path/to/file.json" // => { "custom-properties": { "--brand-blue": "#33f" } }
       ]
-    }
+    }]
   }
 }
 ```
