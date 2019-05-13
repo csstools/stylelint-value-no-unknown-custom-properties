@@ -1,4 +1,4 @@
-# Contributing to No Unknown Custom Properties
+# Contributing to Stylelint Value No Unknown Custom Properties
 
 You want to help? You rock! Now, take a moment to be sure your contributions
 make sense to everyone else.
