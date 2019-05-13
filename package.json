@@ -1,6 +1,6 @@
 {
   "name": "stylelint-value-no-unknown-custom-properties",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A stylelint rule to disallow usage of unknown custom properties",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
@@ -23,27 +23,27 @@
     "test:tape": "tape ./.tape.js | tap-spec"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "dependencies": {
-    "postcss-values-parser": "^2.0.0"
+    "postcss-values-parser": "^3.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
-    "babel-eslint": "^10.0.0",
-    "eslint": "^5.6.0",
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.4",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
     "eslint-config-dev": "^2.0.0",
     "pre-commit": "^1.2.2",
-    "rollup": "^0.66.2",
-    "rollup-plugin-babel": "^4.0.3",
-    "stylelint": "^9.5.0",
+    "rollup": "^1.11.3",
+    "rollup-plugin-babel": "^4.3.2",
+    "stylelint": "^10.0.1",
     "stylelint-test-rule-tape": "^0.2.0",
     "tap-spec": "^5.0.0"
   },
   "peerDependencies": {
-    "stylelint": "^9.5.0"
+    "stylelint": "^10.0.1"
   },
   "eslintConfig": {
     "extends": "dev",
