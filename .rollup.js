@@ -12,7 +12,7 @@ export default {
 				'@babel/plugin-syntax-dynamic-import'
 			],
 			presets: [
-				['@babel/env', { modules: false, targets: { node: 6 } }]
+				['@babel/env', { modules: false, targets: { node: 8 } }]
 			]
 		})
 	]

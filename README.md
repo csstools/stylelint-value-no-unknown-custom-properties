@@ -1,21 +1,21 @@
-# Value No Unknown Custom Properties [<img src="https://jonathantneal.github.io/stylelint-logo.svg" alt="stylelint" width="90" height="90" align="right">][stylelint]
+# Stylelint Value No Unknown Custom Properties [<img src="https://jonathantneal.github.io/stylelint-logo.svg" alt="stylelint" width="90" height="90" align="right">][stylelint]
 
 [![NPM Version][npm-img]][npm-url]
 [![Build Status][cli-img]][cli-url]
 [![Support Chat][git-img]][git-url]
 
-[Value No Unknown Custom Properties] is a [stylelint] rule to disallow usage of
+[Stylelint Value No Unknown Custom Properties] is a [stylelint] rule to disallow usage of
 unknown custom properties.
 
 ## Usage
 
-Add [stylelint] and [Value No Unknown Custom Properties] to your project.
+Add [stylelint] and [Stylelint Value No Unknown Custom Properties] to your project.
 
 ```bash
 npm install stylelint stylelint-value-no-unknown-custom-properties --save-dev
 ```
 
-Add [Value No Unknown Custom Properties] to your [stylelint configuration].
+Add [Stylelint Value No Unknown Custom Properties] to your [stylelint configuration].
 
 ```js
 {
@@ -32,7 +32,7 @@ Add [Value No Unknown Custom Properties] to your [stylelint configuration].
 
 ### true
 
-If the first option is `true`, then [Value No Unknown Custom Properties]
+If the first option is `true`, then [Stylelint Value No Unknown Custom Properties]
 requires all custom properties to be known, and the following patterns are
 _not_ considered violations:
 
@@ -82,7 +82,7 @@ Custom Properties can be imported using the second option.
 ### false
 
 If the first option is `false` or `null`, then
-[Value No Unknown Custom Properties] does nothing.
+[Stylelint Value No Unknown Custom Properties] does nothing.
 
 ---
 
@@ -119,4 +119,4 @@ objects.
 
 [stylelint]: https://github.com/stylelint/stylelint
 [stylelint configuration]: https://github.com/stylelint/stylelint/blob/master/docs/user-guide/configuration.md#readme
-[Value No Unknown Custom Properties]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties
+[Stylelint Value No Unknown Custom Properties]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties
