@@ -7,43 +7,43 @@
   "repository": "csstools/stylelint-value-no-unknown-custom-properties",
   "homepage": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties#readme",
   "bugs": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties/issues",
-  "main": "index.cjs.js",
-  "module": "index.es.mjs",
+  "main": "index.js",
+  "module": "index.mjs",
   "files": [
-    "index.cjs.js",
-    "index.cjs.js.map",
-    "index.es.mjs",
-    "index.es.mjs.map"
+    "index.js",
+    "index.js.map",
+    "index.mjs",
+    "index.mjs.map"
   ],
   "scripts": {
     "prepublishOnly": "npm test",
     "pretest": "rollup -c .rollup.js --silent",
-    "test": "echo 'Running tests...'; npm run test:js && npm run test:tape",
-    "test:js": "eslint *.js --cache --ignore-path .gitignore --quiet",
+    "test": "npm run test:js && npm run test:tape",
+    "test:js": "eslint src/*.js --cache --ignore-path .gitignore --quiet",
     "test:tape": "tape ./.tape.js | tap-spec"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.0.0"
   },
   "dependencies": {
-    "postcss-values-parser": "^3.0.5"
+    "postcss-values-parser": "^3.2.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.4.4",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.9.6",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.0.0",
     "eslint-config-dev": "^2.0.0",
     "pre-commit": "^1.2.2",
-    "rollup": "^1.11.3",
-    "rollup-plugin-babel": "^4.3.2",
-    "stylelint": "^10.0.1",
+    "rollup": "^2.9.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "stylelint": "^13.3.3",
     "stylelint-test-rule-tape": "^0.2.0",
     "tap-spec": "^5.0.0"
   },
   "peerDependencies": {
-    "stylelint": "^10.0.1"
+    "stylelint": "10 - 13"
   },
   "eslintConfig": {
     "extends": "dev",
