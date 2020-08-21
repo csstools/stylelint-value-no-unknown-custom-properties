@@ -10,7 +10,7 @@ async function getCustomPropertiesFromCSSFile(from) {
 	const css = await readFile(from);
 	const root = postcss.parse(css, { from });
 
-	return getCustomPropertiesFromRoot(root);
+	return await getCustomPropertiesFromRoot(root);
 }
 
 /* Get Custom Properties from Object

@@ -29,10 +29,13 @@ accept = [
 	{ code: 'html { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
 	{ code: '* { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
 	{ code: '.anything { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
-	{ code: ':root { --brand-blue: #33f; --brand-color: var(--brand-blue); }' }
+	{ code: ':root { --brand-blue: #33f; --brand-color: var(--brand-blue); }' },
+	{ code: "@import './test/import-custom-properties.css'; body { color: var(--brand-red); }"},
+	{ code: "@import './test/import-custom-properties.css'; @import './test/import-custom-properties123.css'; body { color: var(--brand-red); }"}
 ];
 reject = [
-	{ code: 'body { color: var(--brand-blue); }' }
+	{ code: 'body { color: var(--brand-blue); }' },
+	{ code: "@import './test/import-custom-properties123.css'; body { color: var(--brand-red); }"}
 ];
 
 test(rule, { ruleName, skipBasicChecks, config: true, accept, reject });
@@ -82,7 +85,7 @@ test(rule, {
 });
 
 accept = [
-	{ code: 'body { background-color: var(--brand-red); border-color: var(--brand-white); color: var(--brand-blue); }' }
+	{ code: 'body { background-color: var(--brand-red); background: var(--brand-green); border-color: var(--brand-white); color: var(--brand-blue); }' }
 ];
 reject = [
 	{ code: 'body { color: var(--brand-blu); }' },
