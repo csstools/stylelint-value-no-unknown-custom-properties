@@ -26,7 +26,7 @@ export default stylelint.createPlugin(ruleName, (method, opts) => {
 			// all custom properties from the file and imports
 			const customProperties = Object.assign(
 				await customPropertiesPromise,
-				getCustomPropertiesFromRoot(root)
+				await getCustomPropertiesFromRoot(root)
 			);
 
 			// validate the css root
