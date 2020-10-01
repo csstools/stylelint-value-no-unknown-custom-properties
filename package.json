@@ -1,6 +1,6 @@
 {
   "name": "stylelint-value-no-unknown-custom-properties",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "A stylelint rule to disallow usage of unknown custom properties",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
@@ -26,19 +26,19 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "postcss-values-parser": "^3.2.1"
+    "postcss-values-parser": "^4.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
+    "@babel/core": "^7.11.6",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-env": "^7.11.5",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.0.0",
+    "eslint": "^7.10.0",
     "eslint-config-dev": "^2.0.0",
     "pre-commit": "^1.2.2",
-    "rollup": "^2.9.1",
+    "rollup": "^2.28.2",
     "rollup-plugin-babel": "^4.4.0",
-    "stylelint": "^13.3.3",
+    "stylelint": "^13.7.2",
     "stylelint-test-rule-tape": "^0.2.0",
     "tap-spec": "^5.0.0"
   },
