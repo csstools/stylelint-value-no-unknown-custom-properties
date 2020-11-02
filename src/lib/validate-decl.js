@@ -15,7 +15,7 @@ const validateValueAST = (ast, { result, customProperties, decl }) => {
 	if (Object(ast.nodes).length) {
 		ast.nodes.forEach(node => {
 			if (isVarFunction(node)) {
-				const [propertyNode, comma, ...fallbacks] = node.nodes;
+				const [propertyNode, /* comma */, ...fallbacks] = node.nodes;
 				const propertyName = propertyNode.value;
 
 				if (propertyName in customProperties) {
