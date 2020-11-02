@@ -12,6 +12,11 @@
   "bugs": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties/issues",
   "main": "index.js",
   "module": "index.mjs",
+  "nyc": {
+    "reporter": [
+      "lcov"
+    ]
+  },
   "files": [
     "index.js",
     "index.js.map",
@@ -23,7 +28,7 @@
     "pretest": "rollup -c .rollup.js --silent",
     "test": "npm run test:js && npm run test:tape",
     "test:js": "eslint .*.js src --cache --ignore-path .gitignore --quiet",
-    "test:tape": "tape ./.tape.js | tap-spec"
+    "test:tape": "nyc tape ./.tape.js | tap-nyc"
   },
   "engines": {
     "node": ">=10.0.0"
@@ -38,12 +43,13 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^7.0.0",
     "eslint-config-dev": "^2.0.0",
+    "nyc": "^15.1.0",
     "pre-commit": "^1.2.2",
     "rollup": "^2.9.1",
     "rollup-plugin-babel": "^4.4.0",
     "stylelint": "^13.3.3",
     "stylelint-test-rule-tape": "^0.2.0",
-    "tap-spec": "^5.0.0"
+    "tap-nyc": "^1.0.3"
   },
   "peerDependencies": {
     "stylelint": "10 - 13"
