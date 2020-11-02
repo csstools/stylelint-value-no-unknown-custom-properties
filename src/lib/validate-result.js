@@ -15,4 +15,3 @@ const customPropertyReferenceRegExp = /(^|[^\w-])var\([\W\w]+\)/;
 
 // whether a declaration references a custom property
 const hasCustomPropertyReference = decl => customPropertyReferenceRegExp.test(decl.value);
-
