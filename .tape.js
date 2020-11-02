@@ -24,6 +24,7 @@ test(rule, { ruleName, skipBasicChecks, config: false, accept });
 /* ========================================================================== */
 
 accept = [
+	{ code: 'body { color: oops var(abc); }' },
 	{ code: 'body { --brand-blue: #33f; color: var(--brand-blue); }' },
 	{ code: ':root { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
 	{ code: 'html { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
