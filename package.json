@@ -3,8 +3,11 @@
   "version": "3.0.0",
   "description": "A stylelint rule to disallow usage of unknown custom properties",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "contributors": [
+    "Brett Zamir"
+  ],
   "license": "CC0-1.0",
-  "repository": "csstools/stylelint-value-no-unknown-custom-properties",
+  "repository": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties",
   "homepage": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties#readme",
   "bugs": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties/issues",
   "main": "index.js",
