@@ -90,7 +90,8 @@ accept = [
 ];
 reject = [
 	{ code: 'body { color: var(--brand-blu); }' },
-	{ code: 'body { color: var(--brand-bluez); }' }
+	{ code: 'body { color: var(--brand-bluez); }' },
+	{ code: 'html { background-color: var(--brand-orange); }' }
 ];
 
 test(rule, {
@@ -99,7 +100,8 @@ test(rule, {
 		importFrom: [
 			'test/import-custom-properties.js',
 			'test/import-custom-properties.json',
-			'test/import-custom-properties.css'
+			'test/import-custom-properties.css',
+			'test/import-custom-properties.scss'
 		]
 	}],
 	skipBasicChecks,
