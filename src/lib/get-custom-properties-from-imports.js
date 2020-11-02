@@ -94,6 +94,10 @@ export default function getCustomPropertiesFromSources(sources) {
 
 const readFile = from => new Promise((resolve, reject) => {
 	fs.readFile(from, 'utf8', (error, result) => {
+		// With `createRuleTester` removed, may wish to switch to anoher testing
+		// framework or tool like https://github.com/csstools/stylelint-tape :
+		// https://github.com/stylelint/stylelint/issues/4267
+		// istanbul ignore if -- tape testing framework not handling rejections
 		if (error) {
 			reject(error);
 		} else {
