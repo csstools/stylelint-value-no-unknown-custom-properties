@@ -108,3 +108,40 @@ test(rule, {
 	accept,
 	reject
 });
+
+accept = [
+	{ code: 'body { background-color: var(--brand-red); background: var(--brand-green); border-color: var(--brand-white); color: var(--brand-blue); }' }
+];
+reject = [
+	{ code: 'body { color: var(--brand-blu); }' },
+	{ code: 'body { color: var(--brand-bluez); }' },
+	{ code: 'html { background-color: var(--brand-orange); }' }
+];
+
+test(rule, {
+	ruleName,
+	config: [true, {
+		importFrom: [
+			{
+				from: 'test/import-custom-properties.js'
+			},
+			{
+				customProperties: {
+					'--brand-xy': 'not-used'
+				}
+			},
+			{
+				'custom-properties': {
+					'--brand-zz': 'not-used'
+				}
+			},
+			{},
+			'test/import-custom-properties.json',
+			'test/import-custom-properties.css',
+			'test/import-custom-properties.scss'
+		]
+	}],
+	skipBasicChecks,
+	accept,
+	reject
+});
