@@ -136,8 +136,14 @@ test(rule, {
 				}
 			},
 			{},
-			'test/import-custom-properties.json',
-			'test/import-custom-properties.css',
+			() => ({
+				from: 'test/import-custom-properties.json',
+				type: 'json'
+			}),
+			Promise.resolve({
+				from: 'test/import-custom-properties.css',
+				type: 'css'
+			}),
 			'test/import-custom-properties.scss'
 		]
 	}],
