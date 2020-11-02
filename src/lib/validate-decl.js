@@ -4,14 +4,14 @@ import ruleName from './rule-name';
 import messages from './messages';
 
 // validate css declarations
-export default (decl, { result, customProperties }) => {
+export default (decl, { result, customProperties, rejectBadPrefallbacks }) => {
 	const valueAST = parse(decl.value);
 
-	validateValueAST(valueAST, { result, customProperties, decl });
+	validateValueAST(valueAST, { result, customProperties, decl, rejectBadPrefallbacks });
 };
 
 // validate a value ast
-const validateValueAST = (ast, { result, customProperties, decl }) => {
+const validateValueAST = (ast, { result, customProperties, decl, rejectBadPrefallbacks }) => {
 	if (Object(ast.nodes).length) {
 		ast.nodes.forEach(node => {
 			if (isVarFunction(node)) {
@@ -24,9 +24,11 @@ const validateValueAST = (ast, { result, customProperties, decl }) => {
 
 				// conditionally test fallbacks
 				if (fallbacks.length) {
-					validateValueAST({ nodes: fallbacks.filter(isVarFunction) }, { result, customProperties, decl });
+					validateValueAST({ nodes: fallbacks.filter(isVarFunction) }, { result, customProperties, decl, rejectBadPrefallbacks });
 
-					return;
+					if (!rejectBadPrefallbacks) {
+						return;
+					}
 				}
 
 				// report unknown custom properties
@@ -38,11 +40,11 @@ const validateValueAST = (ast, { result, customProperties, decl }) => {
 					word: String(propertyName)
 				});
 			} else {
-				validateValueAST(node, { result, customProperties, decl });
+				validateValueAST(node, { result, customProperties, decl, rejectBadPrefallbacks });
 			}
 		});
 	}
 };
 
 // whether the node is a var() function
-const isVarFunction = node => node.type === 'func' && node.name === 'var' && node.nodes[0].isVariable;
+export const isVarFunction = node => node.type === 'func' && node.name === 'var' && node.nodes[0].isVariable;

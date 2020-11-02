@@ -23,6 +23,48 @@ test(rule, { ruleName, skipBasicChecks, config: false, accept });
 /* Test enabled
 /* ========================================================================== */
 
+// `reportEarlyUses`
+accept = [
+	{ code: "@import './test/import-custom-properties.css'; body { color: var(--brand-red); }"},
+	{ code: ':root { --abc: green; } body { color: var(--abc); }' },
+	{ code: 'body { color: var(abc); }' },
+	{ code: ':root { --brand-blue: blue; } body { color: var(--brand-blue, #33f); }' },
+	{ code: 'body { color: var(--brand-blue, #33f); }' },
+	{ code: ':root { --brand-blue: blue; } body { color: var(--brand-green, --brand-blue); }' },
+	{ code: ':root { --brand-blue: blue; --brand-red: red; } body { color: var(--brand-blue, var(--brand-red)); }' },
+];
+reject = [
+	{ code: "@import './test/import-custom-properties.css'; body { color: var(--brand-rrr); }"},
+	{ code: 'body { color: var(--abc); } :root { --abc: green; }' },
+	{ code: ':root { --def: blue; } body { color: var(--def, var(--abc)); } :root { --abc: green; }' },
+	{ code: ':root { --brand-blue: blue; } body { color: var(--brand-blue, var(--brand-red)); } html { --brand-red: red; }' }
+];
+
+test(rule, { ruleName, skipBasicChecks, config: [true, {
+	reportEarlyUses: true
+}], accept, reject });
+
+
+// `rejectBadPrefallbacks`
+accept = [
+	{ code: "@import './test/import-custom-properties.css'; body { color: var(--brand-red); }"},
+	{ code: ':root { --abc: green; } body { color: var(--abc); }' },
+	{ code: 'body { color: var(abc); }' },
+	{ code: ':root { --brand-blue: blue; --brand-red: red; } body { color: var(--brand-blue, var(--brand-red)); }' },
+	{ code: ':root { --brand-blue: blue; } body { color: var(--brand-blue, #33f); }' },
+];
+
+reject = [
+	{ code: ':root { --brand-blue: blue; } body { color: var(--brand-green, --brand-blue); }' },
+	{ code: 'body { color: var(--brand-blue, #33f); }' },
+];
+
+test(rule, { ruleName, skipBasicChecks, config: [true, {
+	reportEarlyUses: true,
+	rejectBadPrefallbacks: true
+}], accept, reject });
+
+
 accept = [
 	{ code: 'body { color: oops var(abc); }' },
 	{ code: 'body { --brand-blue: #33f; color: var(--brand-blue); }' },
