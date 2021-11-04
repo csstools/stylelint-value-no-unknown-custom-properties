@@ -110,6 +110,28 @@ objects.
 }
 ```
 
+### resolver
+
+Use this option to configure how the rule solve paths of `@import` rules.
+
+```js
+// .stylelintrc
+{
+  "plugins": [
+    "stylelint-value-no-unknown-custom-properties"
+  ],
+  "rules": {
+    "csstools/value-no-unknown-custom-properties": [true, {
+      "resolver": {
+        "extensions": [".css"], // => default to [".css"]
+        "paths": ["./assets/css", "./static/css"] // => paths to look for files, default to []
+        "moduleDirectories": ["node_modules"] // => modules folder to look for files, default to ["node_modules"]
+      }
+    }]
+  }
+}
+```
+
 [cli-img]: https://img.shields.io/travis/csstools/stylelint-value-no-unknown-custom-properties.svg
 [cli-url]: https://travis-ci.org/csstools/stylelint-value-no-unknown-custom-properties
 [git-img]: https://img.shields.io/badge/support-chat-blue.svg
