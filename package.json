@@ -38,12 +38,12 @@
     "pre-commit": "^1.2.2",
     "rollup": "^2.9.1",
     "rollup-plugin-babel": "^4.4.0",
-    "stylelint": "^13.3.3",
+    "stylelint": "^14.0.1",
     "stylelint-test-rule-tape": "^0.2.0",
     "tap-spec": "^5.0.0"
   },
   "peerDependencies": {
-    "stylelint": "10 - 13"
+    "stylelint": "10 - 14"
   },
   "eslintConfig": {
     "extends": "dev",
