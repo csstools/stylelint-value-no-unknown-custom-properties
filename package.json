@@ -29,15 +29,15 @@
     "postcss-values-parser": "^3.2.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/eslint-parser": "^7.15.7",
-    "@babel/plugin-transform-runtime": "^7.15.0",
-    "@babel/preset-env": "^7.15.6",
+    "@babel/core": "^7.16.0",
+    "@babel/eslint-parser": "^7.16.3",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
     "@rollup/plugin-babel": "^5.3.0",
     "eslint": "^7.32.0",
     "eslint-config-dev": "^2.0.0",
     "pre-commit": "^1.2.2",
-    "rollup": "^2.56.3",
+    "rollup": "^2.60.2",
     "stylelint": "^13.13.1",
     "stylelint-test-rule-tape": "^0.2.0",
     "tap-spec": "^5.0.0"
