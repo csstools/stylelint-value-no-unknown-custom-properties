@@ -38,7 +38,7 @@
     "eslint-config-dev": "^2.0.0",
     "pre-commit": "^1.2.2",
     "rollup": "^2.60.2",
-    "stylelint": "^13.13.1",
+    "stylelint": "^14.1.0",
     "stylelint-test-rule-tape": "^0.2.0",
     "tap-spec": "^5.0.0"
   },
