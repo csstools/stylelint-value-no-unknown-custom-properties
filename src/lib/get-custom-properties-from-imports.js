@@ -1,7 +1,8 @@
-import fs from 'fs';
-import path from 'path';
-import postcss from 'postcss';
-import getCustomPropertiesFromRoot from './get-custom-properties-from-root';
+import fs from "fs";
+import path from "path";
+import postcss from "postcss";
+import scssParser from "postcss-scss";
+import getCustomPropertiesFromRoot from "./get-custom-properties-from-root";
 
 /* Get Custom Properties from CSS File
 /* ========================================================================== */
@@ -13,6 +14,16 @@ async function getCustomPropertiesFromCSSFile(from) {
 	return await getCustomPropertiesFromRoot(root);
 }
 
+async function getCustomPropertiesFromSCSSFile(from) {
+	const scss = await readFile(from);
+
+	const root = postcss().process(scss, {
+		parser: scssParser,
+	}).root;
+
+	return getCustomPropertiesFromRoot(root);
+}
+
 /* Get Custom Properties from Object
 /* ========================================================================== */
 
@@ -20,7 +31,7 @@ function getCustomPropertiesFromObject(object) {
 	const customProperties = Object.assign(
 		{},
 		Object(object).customProperties,
-		Object(object)['custom-properties']
+		Object(object)["custom-properties"]
 	);
 
 	return customProperties;
@@ -48,58 +59,80 @@ async function getCustomPropertiesFromJSFile(from) {
 /* ========================================================================== */
 
 export default function getCustomPropertiesFromSources(sources) {
-	return sources.map(source => {
-		if (source instanceof Promise) {
-			return source;
-		} else if (source instanceof Function) {
-			return source();
-		}
+	return sources
+		.map((source) => {
+			if (source instanceof Promise) {
+				return source;
+			} else if (source instanceof Function) {
+				return source();
+			}
 
-		// read the source as an object
-		const opts = source === Object(source) ? source : { from: String(source) };
+			// read the source as an object
+			const opts =
+				source === Object(source) ? source : { from: String(source) };
 
-		// skip objects with Custom Properties
-		if (opts.customProperties || opts['custom-properties']) {
-			return opts
-		}
+			// skip objects with Custom Properties
+			if (opts.customProperties || opts["custom-properties"]) {
+				return opts;
+			}
 
-		// source pathname
-		const from = path.resolve(String(opts.from || ''));
+			// source pathname
+			const from = path.resolve(String(opts.from || ""));
 
-		// type of file being read from
-		const type = (opts.type || path.extname(from).slice(1)).toLowerCase();
+			// type of file being read from
+			const type = (opts.type || path.extname(from).slice(1)).toLowerCase();
 
-		return { type, from };
-	}).reduce(async (customProperties, source) => {
-		const { type, from } = await source;
+			return { type, from };
+		})
+		.reduce(async (customProperties, source) => {
+			const { type, from } = await source;
 
-		if (type === 'css') {
-			return Object.assign(await customProperties, await getCustomPropertiesFromCSSFile(from));
-		}
+			if (type === "scss") {
+				return Object.assign(
+					await customProperties,
+					await getCustomPropertiesFromSCSSFile(from)
+				);
+			}
+			if (type === "css") {
+				return Object.assign(
+					await customProperties,
+					await getCustomPropertiesFromCSSFile(from)
+				);
+			}
 
-		if (type === 'js') {
-			return Object.assign(await customProperties, await getCustomPropertiesFromJSFile(from));
-		}
+			if (type === "js") {
+				return Object.assign(
+					await customProperties,
+					await getCustomPropertiesFromJSFile(from)
+				);
+			}
 
-		if (type === 'json') {
-			return Object.assign(await customProperties, await getCustomPropertiesFromJSONFile(from));
-		}
+			if (type === "json") {
+				return Object.assign(
+					await customProperties,
+					await getCustomPropertiesFromJSONFile(from)
+				);
+			}
 
-		return Object.assign(await customProperties, await getCustomPropertiesFromObject(await source));
-	}, {});
+			return Object.assign(
+				await customProperties,
+				await getCustomPropertiesFromObject(await source)
+			);
+		}, {});
 }
 
 /* Promise-ified utilities
 /* ========================================================================== */
 
-const readFile = from => new Promise((resolve, reject) => {
-	fs.readFile(from, 'utf8', (error, result) => {
-		if (error) {
-			reject(error);
-		} else {
-			resolve(result);
-		}
+const readFile = (from) =>
+	new Promise((resolve, reject) => {
+		fs.readFile(from, "utf8", (error, result) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(result);
+			}
+		});
 	});
-});
 
-const readJSON = async from => JSON.parse(await readFile(from));
+const readJSON = async (from) => JSON.parse(await readFile(from));

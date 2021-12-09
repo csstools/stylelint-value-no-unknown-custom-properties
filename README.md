@@ -90,7 +90,7 @@ If the first option is `false` or `null`, then
 
 When the first option is `true`, then the second option can specify sources
 where Custom Properties should be imported from by using an `importFrom` key.
-These imports might be CSS, JS, and JSON files, functions, and directly passed
+These imports might be SCSS (light support), CSS, JS, and JSON files, functions, and directly passed
 objects.
 
 ```js
@@ -116,7 +116,6 @@ objects.
 [git-url]: https://gitter.im/stylelint/stylelint
 [npm-img]: https://img.shields.io/npm/v/stylelint-value-no-unknown-custom-properties.svg
 [npm-url]: https://www.npmjs.com/package/stylelint-value-no-unknown-custom-properties
-
 [stylelint]: https://github.com/stylelint/stylelint
 [stylelint configuration]: https://github.com/stylelint/stylelint/blob/master/docs/user-guide/configuration.md#readme
-[Stylelint Value No Unknown Custom Properties]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties
+[stylelint value no unknown custom properties]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties
