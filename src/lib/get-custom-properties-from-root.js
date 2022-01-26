@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import postcss from 'postcss';
+import {importCache} from "./import-cache";
 
 // return custom selectors from the css root, conditionally removing them
 export default async function getCustomPropertiesFromRoot(root) {
@@ -17,8 +18,21 @@ export default async function getCustomPropertiesFromRoot(root) {
 	const importPromises = [];
 	root.walkAtRules('import', atRule => {
 		const fileName = atRule.params.replace(/['|"]/g, '');
-		const resolvedFileName = path.resolve(sourceDir, fileName);
-		importPromises.push(getCustomPropertiesFromCSSFile(resolvedFileName));
+		let resolvedFileName;
+
+		if ((/^~/).test(fileName)) {
+			resolvedFileName = require.resolve(fileName.replace(/^~/, ''));
+		} else {
+			resolvedFileName = path.resolve(sourceDir, fileName);
+		}
+
+		// if a cache doesn't exist, create it
+		if (!importCache.has(resolvedFileName)) {
+			importCache.set(resolvedFileName, getCustomPropertiesFromCSSFile(resolvedFileName));
+		}
+
+		// use the cached custom properties
+		importPromises.push(importCache.get(resolvedFileName));
 	});
 
 	(await Promise.all(importPromises)).forEach(propertiesFromImport => {

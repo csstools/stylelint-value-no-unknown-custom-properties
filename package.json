@@ -1,6 +1,6 @@
 {
   "name": "stylelint-value-no-unknown-custom-properties",
-  "version": "3.0.0",
+  "version": "3.0.0-pebblepad-fork",
   "description": "A stylelint rule to disallow usage of unknown custom properties",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "prepublishOnly": "npm test",
+    "build": "rollup -c .rollup.js",
     "pretest": "rollup -c .rollup.js --silent",
     "test": "npm run test:js && npm run test:tape",
     "test:js": "eslint src/*.js --cache --ignore-path .gitignore --quiet",
