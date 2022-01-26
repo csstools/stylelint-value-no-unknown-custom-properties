@@ -1,6 +1,5 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import process from 'process';
 import postcss from 'postcss';
 import {importCache} from "./import-cache";
 
@@ -21,9 +20,8 @@ export default async function getCustomPropertiesFromRoot(root) {
 		const fileName = atRule.params.replace(/['|"]/g, '');
 		let resolvedFileName;
 
-		if ((/[~]/g).test(fileName)) {
-			path.resolve(sourceDir, fileName);
-			resolvedFileName = path.normalize(fileName.replace(/[~]/g, path.join(process.cwd(), 'node_modules') + "/"));
+		if ((/^~/).test(fileName)) {
+			resolvedFileName = require.resolve(fileName.replace(/^~/, ''));
 		} else {
 			resolvedFileName = path.resolve(sourceDir, fileName);
 		}
