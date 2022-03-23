@@ -1,9 +1,10 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import postcss from 'postcss';
+import { resolveId } from './resolve-id'
 
 // return custom selectors from the css root, conditionally removing them
-export default async function getCustomPropertiesFromRoot(root) {
+export default async function getCustomPropertiesFromRoot(root, resolver) {
 	// initialize custom selectors
 	let customProperties = {};
 
@@ -17,8 +18,19 @@ export default async function getCustomPropertiesFromRoot(root) {
 	const importPromises = [];
 	root.walkAtRules('import', atRule => {
 		const fileName = atRule.params.replace(/['|"]/g, '');
-		const resolvedFileName = path.resolve(sourceDir, fileName);
-		importPromises.push(getCustomPropertiesFromCSSFile(resolvedFileName));
+
+		if (path.isAbsolute(fileName)) {
+			importPromises.push(getCustomPropertiesFromCSSFile(fileName, resolver));
+		} else {
+			const promise = resolveId(fileName, sourceDir, {
+				paths: resolver.paths,
+				extensions: resolver.extensions,
+				moduleDirectories: resolver.moduleDirectories
+			})
+				.then((filePath) => getCustomPropertiesFromCSSFile(filePath, resolver))
+				.catch(() => {})
+			importPromises.push(promise)
+		}
 	});
 
 	(await Promise.all(importPromises)).forEach(propertiesFromImport => {
@@ -41,12 +53,12 @@ export default async function getCustomPropertiesFromRoot(root) {
 const customPropertyRegExp = /^--[A-z][\w-]*$/;
 
 
-async function getCustomPropertiesFromCSSFile(from) {
+async function getCustomPropertiesFromCSSFile(from, resolver) {
 	try {
 		const css = await fs.readFile(from, 'utf8');
 		const root = postcss.parse(css, { from });
 
-		return await getCustomPropertiesFromRoot(root);
+		return await getCustomPropertiesFromRoot(root, resolver);
 	} catch (e) {
 		return {};
 	}

@@ -6,11 +6,11 @@ import getCustomPropertiesFromRoot from './get-custom-properties-from-root';
 /* Get Custom Properties from CSS File
 /* ========================================================================== */
 
-async function getCustomPropertiesFromCSSFile(from) {
+async function getCustomPropertiesFromCSSFile(from, resolver) {
 	const css = await readFile(from);
 	const root = postcss.parse(css, { from });
 
-	return await getCustomPropertiesFromRoot(root);
+	return await getCustomPropertiesFromRoot(root, resolver);
 }
 
 /* Get Custom Properties from Object
@@ -47,7 +47,7 @@ async function getCustomPropertiesFromJSFile(from) {
 /* Get Custom Properties from Sources
 /* ========================================================================== */
 
-export default function getCustomPropertiesFromSources(sources) {
+export default function getCustomPropertiesFromSources(sources, resolver) {
 	return sources.map(source => {
 		if (source instanceof Promise) {
 			return source;
@@ -74,7 +74,7 @@ export default function getCustomPropertiesFromSources(sources) {
 		const { type, from } = await source;
 
 		if (type === 'css') {
-			return Object.assign(await customProperties, await getCustomPropertiesFromCSSFile(from));
+			return Object.assign(await customProperties, await getCustomPropertiesFromCSSFile(from, resolver));
 		}
 
 		if (type === 'js') {

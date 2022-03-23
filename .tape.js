@@ -105,3 +105,20 @@ test(rule, {
 	accept,
 	reject
 });
+
+accept = [
+	{ code: '@import "import-custom-properties-absolute.css"; body { background-color: var(--brand-red); background: var(--brand-green); }' }
+];
+reject = [];
+
+test(rule, {
+	ruleName,
+	config: [true, {
+		resolver: {
+			paths: './test'
+		}
+	}],
+	skipBasicChecks,
+	accept,
+	reject
+});
