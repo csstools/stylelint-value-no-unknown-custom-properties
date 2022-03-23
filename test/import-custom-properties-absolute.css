@@ -1,0 +1,5 @@
+@import 'import-custom-properties-2.css';
+
+:root {
+	--brand-red: red;
+}

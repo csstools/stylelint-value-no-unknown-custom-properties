@@ -7,10 +7,11 @@ import ruleName from './lib/rule-name';
 export default stylelint.createPlugin(ruleName, (method, opts) => {
 	// sources to import custom selectors from
 	const importFrom = [].concat(Object(opts).importFrom || []);
+	const resolver = Object(opts).resolver || {};
 
 	// promise any custom selectors are imported
 	const customPropertiesPromise = isMethodEnabled(method)
-		? getCustomPropertiesFromImports(importFrom)
+		? getCustomPropertiesFromImports(importFrom, resolver)
 	: {};
 
 	return async (root, result) => {
@@ -26,7 +27,7 @@ export default stylelint.createPlugin(ruleName, (method, opts) => {
 			// all custom properties from the file and imports
 			const customProperties = Object.assign(
 				await customPropertiesPromise,
-				await getCustomPropertiesFromRoot(root)
+				await getCustomPropertiesFromRoot(root, resolver)
 			);
 
 			// validate the css root
