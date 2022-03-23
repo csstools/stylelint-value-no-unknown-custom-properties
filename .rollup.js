@@ -1,4 +1,4 @@
-import babel from 'rollup-plugin-babel';
+import { babel } from '@rollup/plugin-babel';
 
 export default {
 	input: 'src/index.js',
@@ -8,12 +8,12 @@ export default {
 	],
 	plugins: [
 		babel({
-			plugins: [
-				'@babel/plugin-syntax-dynamic-import'
-			],
+      babelHelpers: 'runtime',
 			presets: [
 				['@babel/env', { modules: false, targets: { node: 10 } }]
-			]
-		})
+			],
+      plugins:["@babel/plugin-transform-runtime"]
+		},
+    )
 	]
 };

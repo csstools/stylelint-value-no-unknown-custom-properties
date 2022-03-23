@@ -26,20 +26,23 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
+    "postcss-values-parser": "4.0.0"
     "postcss-values-parser": "^3.2.1",
     "resolve": "^1.20.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/preset-env": "^7.9.6",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.0.0",
+    "@babel/core": "^7.16.0",
+    "@babel/eslint-parser": "^7.16.3",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "@rollup/plugin-babel": "^5.3.0",
+    "eslint": "^8.4.1",
     "eslint-config-dev": "^2.0.0",
     "pre-commit": "^1.2.2",
+    "rollup": "^2.60.2",
+    "stylelint": "^14.1.0",
     "rollup": "^2.9.1",
     "rollup-plugin-babel": "^4.4.0",
-    "stylelint": "^14.0.1",
     "stylelint-test-rule-tape": "^0.2.0",
     "tap-spec": "^5.0.0"
   },
@@ -48,7 +51,10 @@
   },
   "eslintConfig": {
     "extends": "dev",
-    "parser": "babel-eslint"
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "requireConfigFile": false
+    }
   },
   "keywords": [
     "stylelint",
