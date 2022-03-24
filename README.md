@@ -140,5 +140,5 @@ Use this option to configure how the rule solve paths of `@import` rules.
 [npm-url]: https://www.npmjs.com/package/stylelint-value-no-unknown-custom-properties
 
 [stylelint]: https://github.com/stylelint/stylelint
-[stylelint configuration]: https://github.com/stylelint/stylelint/blob/master/docs/user-guide/configuration.md#readme
+[stylelint configuration]: https://stylelint.io/user-guide/configure/
 [Stylelint Value No Unknown Custom Properties]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties

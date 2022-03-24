@@ -1,6 +1,5 @@
 node_modules
-/index.*
-package-lock.json
+dist
 *.log*
 .*
 !.editorconfig

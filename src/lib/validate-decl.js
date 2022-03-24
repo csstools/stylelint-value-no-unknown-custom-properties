@@ -35,7 +35,7 @@ const validateValueAST = (ast, { result, customProperties, decl }) => {
 					node: decl,
 					result,
 					ruleName,
-					word: String(propertyName)
+					word: String(propertyName),
 				});
 			} else {
 				validateValueAST(node, { result, customProperties, decl });
