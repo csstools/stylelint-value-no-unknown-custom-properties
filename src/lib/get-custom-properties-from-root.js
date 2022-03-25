@@ -9,7 +9,7 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 	let customProperties = {};
 
 	// resolve current file directory
-	let sourceDir = __dirname;
+	let sourceDir = process.cwd();
 	if (root.source && root.source.input && root.source.input.file) {
 		sourceDir = path.dirname(root.source.input.file);
 	}
