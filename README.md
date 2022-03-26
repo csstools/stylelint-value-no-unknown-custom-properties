@@ -1,8 +1,9 @@
 # Stylelint Value No Unknown Custom Properties [<img src="https://jonathantneal.github.io/stylelint-logo.svg" alt="stylelint" width="90" height="90" align="right">][stylelint]
 
 [![NPM Version][npm-img]][npm-url]
-[![Build Status][cli-img]][cli-url]
-[![Support Chat][git-img]][git-url]
+[![test][test-badge]][test-url]
+[![Discord][discord-badge]][discord]
+[<img alt="Discord" src="https://shields.io/badge/Discord-5865F2?logo=discord&logoColor=white">][discord]
 
 [Stylelint Value No Unknown Custom Properties] is a [stylelint] rule to disallow usage of
 unknown custom properties.
@@ -132,10 +133,10 @@ Use this option to configure how the rule solve paths of `@import` rules.
 }
 ```
 
-[cli-img]: https://img.shields.io/travis/csstools/stylelint-value-no-unknown-custom-properties.svg
-[cli-url]: https://travis-ci.org/csstools/stylelint-value-no-unknown-custom-properties
-[git-img]: https://img.shields.io/badge/support-chat-blue.svg
-[git-url]: https://gitter.im/stylelint/stylelint
+[discord]: https://discord.gg/bUadyRwkJS
+[discord-badge]: https://shields.io/badge/Discord-5865F2?logo=discord&logoColor=white
+[test-badge]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties/actions/workflows/test.yml/badge.svg
+[test-url]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties/actions/workflows/test.yml
 [npm-img]: https://img.shields.io/npm/v/stylelint-value-no-unknown-custom-properties.svg
 [npm-url]: https://www.npmjs.com/package/stylelint-value-no-unknown-custom-properties
 
