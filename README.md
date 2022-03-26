@@ -3,7 +3,6 @@
 [![NPM Version][npm-img]][npm-url]
 [![test][test-badge]][test-url]
 [![Discord][discord-badge]][discord]
-[<img alt="Discord" src="https://shields.io/badge/Discord-5865F2?logo=discord&logoColor=white">][discord]
 
 [Stylelint Value No Unknown Custom Properties] is a [stylelint] rule to disallow usage of
 unknown custom properties.
