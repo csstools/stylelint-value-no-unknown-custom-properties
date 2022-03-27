@@ -1,14 +1,13 @@
-const test = require('stylelint-test-rule-tape');
-const { default: { rule }, ruleName } = require('.');
+const { messages, ruleName } = require('.');
 const skipBasicChecks = true;
 let accept = [], reject = [];
 
 /* Test basic checks
 /* ========================================================================== */
 
-test(rule, { ruleName, config: null });
-test(rule, { ruleName, config: false });
-test(rule, { ruleName, config: true });
+testRule({ plugins: ["."], ruleName, config: null });
+testRule({ plugins: ["."], ruleName, config: false });
+testRule({ plugins: ["."], ruleName, config: true });
 
 /* Test disabled
 /* ========================================================================== */
@@ -17,8 +16,8 @@ accept = [
 	{ code: 'body { color: var(--brand-blue); }', description: 'ignored custom property' }
 ];
 
-test(rule, { ruleName, skipBasicChecks, config: null, accept });
-test(rule, { ruleName, skipBasicChecks, config: false, accept });
+testRule({ plugins: ["."], ruleName, skipBasicChecks, config: null, accept });
+testRule({ plugins: ["."], ruleName, skipBasicChecks, config: false, accept });
 
 /* Test enabled
 /* ========================================================================== */
@@ -30,15 +29,15 @@ accept = [
 	{ code: '* { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
 	{ code: '.anything { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
 	{ code: ':root { --brand-blue: #33f; --brand-color: var(--brand-blue); }' },
-	{ code: "@import './test/import-custom-properties.css'; body { color: var(--brand-red); }"},
-	{ code: "@import './test/import-custom-properties.css'; @import './test/import-custom-properties123.css'; body { color: var(--brand-red); }"}
+	{ code: "@import './test/import-custom-properties.css'; body { color: var(--brand-red); }" },
+	{ code: "@import './test/import-custom-properties.css'; @import './test/import-custom-properties123.css'; body { color: var(--brand-red); }" }
 ];
 reject = [
-	{ code: 'body { color: var(--brand-blue); }' },
-	{ code: "@import './test/import-custom-properties123.css'; body { color: var(--brand-red); }"}
+	{ code: 'body { color: var(--brand-blue); }', message: messages.unexpected('--brand-blue', 'color') },
+	{ code: "@import './test/import-custom-properties123.css'; body { color: var(--brand-red); }", message: messages.unexpected('--brand-red', 'color') }
 ];
 
-test(rule, { ruleName, skipBasicChecks, config: true, accept, reject });
+testRule({ plugins: ["."], ruleName, skipBasicChecks, config: true, accept, reject });
 
 /* Test fallbacks
 /* ========================================================================== */
@@ -47,9 +46,9 @@ accept = [
 	{ code: 'body { color: var(--brand-blue, #33f); }' }
 ];
 reject = [
-	{ code: 'body { color: var(--brand-blue, var(--brand-red)); }' }
+	{ code: 'body { color: var(--brand-blue, var(--brand-red)); }', message: messages.unexpected('--brand-red', 'color') }
 ];
-test(rule, { ruleName, skipBasicChecks, config: true, accept, reject });
+testRule({ plugins: ["."], ruleName, skipBasicChecks, config: true, accept, reject });
 
 /* Test enabled: not var()s
 /* ========================================================================== */
@@ -59,7 +58,7 @@ accept = [
 	{ code: 'body { color: var(); }' }
 ];
 
-test(rule, { ruleName, skipBasicChecks, config: true, accept });
+testRule({ plugins: ["."], ruleName, skipBasicChecks, config: true, accept });
 
 /* Test enabled: { importFrom }
 /* ========================================================================== */
@@ -68,11 +67,12 @@ accept = [
 	{ code: 'body { color: var(--brand-blue); }' }
 ];
 reject = [
-	{ code: 'body { color: var(--brand-blu); }' },
-	{ code: 'body { color: var(--brand-bluez); }' }
+	{ code: 'body { color: var(--brand-blu); }', message: messages.unexpected('--brand-blu', 'color') },
+	{ code: 'body { color: var(--brand-bluez); }', message: messages.unexpected('--brand-bluez', 'color') }
 ];
 
-test(rule, {
+testRule({
+	plugins: ["."],
 	ruleName,
 	config: [true, {
 		importFrom: {
@@ -88,11 +88,12 @@ accept = [
 	{ code: 'body { background-color: var(--brand-red); background: var(--brand-green); border-color: var(--brand-white); color: var(--brand-blue); }' }
 ];
 reject = [
-	{ code: 'body { color: var(--brand-blu); }' },
-	{ code: 'body { color: var(--brand-bluez); }' }
+	{ code: 'body { color: var(--brand-blu); }', message: messages.unexpected('--brand-blu', 'color') },
+	{ code: 'body { color: var(--brand-bluez); }', message: messages.unexpected('--brand-bluez', 'color') }
 ];
 
-test(rule, {
+testRule({
+	plugins: ["."],
 	ruleName,
 	config: [true, {
 		importFrom: [
@@ -111,7 +112,8 @@ accept = [
 ];
 reject = [];
 
-test(rule, {
+testRule({
+	plugins: ["."],
 	ruleName,
 	config: [true, {
 		resolver: {

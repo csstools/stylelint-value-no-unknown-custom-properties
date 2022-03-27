@@ -2,6 +2,7 @@ import stylelint from 'stylelint';
 import getCustomPropertiesFromRoot from './lib/get-custom-properties-from-root';
 import getCustomPropertiesFromImports from './lib/get-custom-properties-from-imports';
 import validateResult from './lib/validate-result';
+import messages from './lib/messages';
 import ruleName from './lib/rule-name';
 
 export default stylelint.createPlugin(ruleName, (method, opts) => {
@@ -36,7 +37,7 @@ export default stylelint.createPlugin(ruleName, (method, opts) => {
 	};
 });
 
-export { ruleName };
+export { messages, ruleName };
 
 const isMethodEnabled = method => method === true;
 const isMethodDisabled = method => method === null || method === false;
