@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import postcss from 'postcss';
+import valueParser from 'postcss-value-parser';
 import { resolveId } from './resolve-id'
 
 // return custom selectors from the css root, conditionally removing them
@@ -17,7 +18,12 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 	// recursively add custom properties from @import statements
 	const importPromises = [];
 	root.walkAtRules('import', atRule => {
-		const fileName = atRule.params.replace(/['|"]/g, '');
+		const nodes = valueParser(atRule.params).nodes;
+		if (!nodes.length) {
+			return;
+		}
+
+		const fileName = nodes[0].value;
 
 		if (path.isAbsolute(fileName)) {
 			importPromises.push(getCustomPropertiesFromCSSFile(fileName, resolver));
