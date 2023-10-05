@@ -1,12 +1,12 @@
 {
-  "name": "stylelint-value-no-unknown-custom-properties",
-  "version": "4.0.0",
+  "name": "@lokalise/stylelint-value-no-unknown-custom-properties",
+  "version": "4.0.1",
   "description": "A stylelint rule to disallow usage of unknown custom properties",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
-  "repository": "csstools/stylelint-value-no-unknown-custom-properties",
-  "homepage": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties#readme",
-  "bugs": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties/issues",
+  "repository": "lokalise/stylelint-value-no-unknown-custom-properties",
+  "homepage": "https://github.com/lokalise/stylelint-value-no-unknown-custom-properties#readme",
+  "bugs": "https://github.com/lokalise/stylelint-value-no-unknown-custom-properties/issues",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "exports": {
