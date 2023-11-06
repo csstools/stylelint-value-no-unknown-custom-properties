@@ -1,5 +1,11 @@
 # Changes to Stylelint Value No Unknown Custom Properties
 
+### 5.0.0 (November 6, 2023)
+
+- Ensure this can work with Stylelint 15 too. (thanks [@alex-e-leon](https://github.com/alex-e-leon)!)
+- Updated dependencies to latest versions.
+- Breaking: Dropping support for old Node versions.
+
 ### 4.0.0 (March 26, 2022)
 
 - Updated to use `postcss-value-parser`.
