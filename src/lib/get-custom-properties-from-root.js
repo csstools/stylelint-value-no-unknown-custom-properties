@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import postcss from 'postcss';
-import { resolveId } from './resolve-id'
+import { resolveId } from './resolve-id';
 
 // return custom selectors from the css root, conditionally removing them
 export default async function getCustomPropertiesFromRoot(root, resolver) {
@@ -25,11 +25,12 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 			const promise = resolveId(fileName, sourceDir, {
 				paths: resolver.paths,
 				extensions: resolver.extensions,
-				moduleDirectories: resolver.moduleDirectories
+				moduleDirectories: resolver.moduleDirectories,
 			})
 				.then((filePath) => getCustomPropertiesFromCSSFile(filePath, resolver))
-				.catch(() => {})
-			importPromises.push(promise)
+				.catch(() => {});
+
+			importPromises.push(promise);
 		}
 	});
 
