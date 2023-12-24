@@ -1,7 +1,7 @@
-import fs from 'fs/promises';
-import path from 'path';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import postcss from 'postcss';
-import getCustomPropertiesFromRoot from './get-custom-properties-from-root';
+import getCustomPropertiesFromRoot from './get-custom-properties-from-root.mjs';
 
 /* Get Custom Properties from CSS File
 /* ========================================================================== */

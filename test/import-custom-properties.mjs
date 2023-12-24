@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	customProperties: {
 		'--brand-white': 'white'
 	}

@@ -1,13 +1,17 @@
-const { messages, ruleName } = require('.');
+import { testRule } from 'stylelint-test-rule-node';
+
+import messages from './src/lib/messages.mjs';
+import ruleName from './src/lib/rule-name.mjs';
+
 const skipBasicChecks = true;
 let accept = [], reject = [];
 
 /* Test basic checks
 /* ========================================================================== */
 
-testRule({ plugins: ['.'], ruleName, config: null });
-testRule({ plugins: ['.'], ruleName, config: false });
-testRule({ plugins: ['.'], ruleName, config: true });
+testRule({ plugins: ['.'], ruleName, config: null, accept: [''] });
+testRule({ plugins: ['.'], ruleName, config: false, accept: [''] });
+testRule({ plugins: ['.'], ruleName, config: true, accept: [''] });
 
 /* Test disabled
 /* ========================================================================== */
@@ -82,6 +86,7 @@ testRule({
 		},
 	}],
 	skipBasicChecks,
+	accept: ['']
 });
 
 accept = [
@@ -100,7 +105,7 @@ testRule({
 	ruleName,
 	config: [true, {
 		importFrom: [
-			'./test/import-custom-properties.js',
+			'./test/import-custom-properties.mjs',
 			'./test/import-custom-properties.json',
 			'./test/import-custom-properties.css',
 		],

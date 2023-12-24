@@ -1,7 +1,7 @@
 import stylelint from 'stylelint';
 import valueParser from 'postcss-value-parser';
-import ruleName from './rule-name';
-import messages from './messages';
+import ruleName from './rule-name.mjs';
+import messages from './messages.mjs';
 
 // validate css declarations
 export default (decl, { result, customProperties }) => {
