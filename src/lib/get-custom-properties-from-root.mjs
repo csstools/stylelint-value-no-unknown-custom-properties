@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import postcss from 'postcss';
+import valueParser from 'postcss-value-parser';
 import { resolveId } from './resolve-id.mjs';
 
 // return custom selectors from the css root, conditionally removing them
@@ -17,7 +18,10 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 	// recursively add custom properties from @import statements
 	const importPromises = [];
 	root.walkAtRules('import', atRule => {
-		const fileName = atRule.params.replace(/['|"]/g, '');
+		const fileName = parseImportParams(atRule.params);
+		if (!fileName) {
+			return;
+		}
 
 		if (path.isAbsolute(fileName)) {
 			importPromises.push(getCustomPropertiesFromCSSFile(fileName, resolver));
@@ -39,20 +43,18 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 	});
 
 	// for each custom property declaration
-	root.walkDecls(customPropertyRegExp, decl => {
-		const { prop } = decl;
+	root.walkDecls(decl => {
+		if (!decl.variable || !decl.prop.startsWith('--')) {
+			return;
+		}
 
 		// write the parsed value to the custom property
-		customProperties[prop] = decl.value;
+		customProperties[decl.prop] = decl.value;
 	});
 
 	// return all custom properties, preferring :root properties over html properties
 	return customProperties;
 }
-
-// match custom properties
-const customPropertyRegExp = /^--[A-z][\w-]*$/;
-
 
 async function getCustomPropertiesFromCSSFile(from, resolver) {
 	try {
@@ -63,4 +65,45 @@ async function getCustomPropertiesFromCSSFile(from, resolver) {
 	} catch (e) {
 		return {};
 	}
+}
+
+function parseImportParams(params) {
+	const nodes = valueParser(params).nodes;
+	if (!nodes.length) {
+		return;
+	}
+
+	for (let i = 0; i < nodes.length; i++) {
+		const node = nodes[i];
+		if (node.type === 'space' || node.type === 'comment') {
+			continue;
+		}
+
+		if (node.type === 'string') {
+			return node.value;
+		}
+
+		if (node.type === 'function' && /url/i.test(node.value)) {
+			for (let j = 0; j < node.nodes.length; j++) {
+				const urlNode = node.nodes[j];
+				if (urlNode.type === 'space' || urlNode.type === 'comment') {
+					continue;
+				}
+
+				if (urlNode.type === 'word') {
+					return urlNode.value;
+				}
+
+				if (urlNode.type === 'string') {
+					return urlNode.value;
+				}
+
+				return false;
+			}
+		}
+
+		return false;
+	}
+
+	return false;
 }

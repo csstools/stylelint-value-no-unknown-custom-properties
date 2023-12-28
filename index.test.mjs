@@ -33,6 +33,15 @@ accept = [
 	{ code: '.anything { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
 	{ code: ':root { --brand-blue: #33f; --brand-color: var(--brand-blue); }' },
 	{ code: '@import \'./test/import-custom-properties.css\'; body { color: var(--brand-red); }' },
+	{ code: '@import "./test/import-custom-properties.css" screen; body { color: var(--brand-red); }' },
+	{ code: '@import "./test/import-custom-properties.css"/**/; body { color: var(--brand-red); }' },
+	{ code: '@import url(./test/import-custom-properties.css); body { color: var(--brand-red); }' },
+	{ code: '@import url(\'./test/import-custom-properties.css\'); body { color: var(--brand-red); }' },
+	{ code: '@import url( \'./test/import-custom-properties.css\'/**/)/**/; body { color: var(--brand-red); }' },
+	{ code: '@import url(\t\'./test/import-custom-properties.css\'\t)\t; body { color: var(--brand-red); }' },
+	{ code: '@import url(./test/import-custom-properties.css) screen; body { color: var(--brand-red); }' },
+	{ code: '@import url("./test/import-custom-properties.css") screen; body { color: var(--brand-red); }' },
+	{ code: '@import url("./test/import-custom-properties.css" url-mod); body { color: var(--brand-red); }' },
 	{ code: '@import \'./test/import-custom-properties.css\'; @import \'./test/import-custom-properties123.css\'; body { color: var(--brand-red); }' },
 ];
 reject = [

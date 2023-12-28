@@ -1,5 +1,9 @@
 # Changes to Stylelint Value No Unknown Custom Properties
 
+### Unreleased
+
+- Fix `@import` prelude parsing
+
 ### 6.0.0 (Dec 28, 2023)
 
  - Updated: peer `stylelint` to >=16 (breaking)
