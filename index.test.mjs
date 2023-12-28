@@ -43,6 +43,7 @@ accept = [
 	{ code: '@import url("./test/import-custom-properties.css") screen; body { color: var(--brand-red); }' },
 	{ code: '@import url("./test/import-custom-properties.css" url-mod); body { color: var(--brand-red); }' },
 	{ code: '@import \'./test/import-custom-properties.css\'; @import \'./test/import-custom-properties123.css\'; body { color: var(--brand-red); }' },
+	{ code: 'color: var(--my-undefined-color, #ffffff);' },
 ];
 reject = [
 	{ code: 'body { color: var(--brand-blue); }', message: messages.unexpected('--brand-blue', 'color') },
