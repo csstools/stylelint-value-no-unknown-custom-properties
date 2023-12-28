@@ -1,11 +1,11 @@
 import stylelint from 'stylelint';
-import getCustomPropertiesFromRoot from './lib/get-custom-properties-from-root';
-import getCustomPropertiesFromImports from './lib/get-custom-properties-from-imports';
-import validateResult from './lib/validate-result';
-import messages from './lib/messages';
-import ruleName from './lib/rule-name';
+import getCustomPropertiesFromRoot from './lib/get-custom-properties-from-root.mjs';
+import getCustomPropertiesFromImports from './lib/get-custom-properties-from-imports.mjs';
+import validateResult from './lib/validate-result.mjs';
+import messages from './lib/messages.mjs';
+import ruleName from './lib/rule-name.mjs';
 
-export default stylelint.createPlugin(ruleName, (method, opts) => {
+const ruleFunction = (method, opts) => {
 	// sources to import custom selectors from
 	const importFrom = [].concat(Object(opts).importFrom || []);
 	const resolver = Object(opts).resolver || {};
@@ -35,9 +35,12 @@ export default stylelint.createPlugin(ruleName, (method, opts) => {
 			validateResult(result, customProperties);
 		}
 	};
-});
+};
 
-export { messages, ruleName };
+ruleFunction.ruleName = ruleName;
+ruleFunction.messages = messages;
+
+export default stylelint.createPlugin(ruleName, ruleFunction);
 
 const isMethodEnabled = method => method === true;
 const isMethodDisabled = method => method === null || method === false;

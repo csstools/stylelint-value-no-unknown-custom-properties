@@ -1,13 +1,17 @@
-const { messages, ruleName } = require('.');
-const skipBasicChecks = true;
+
+import { testRule } from 'stylelint-test-rule-node';
+import plugin from './src/index.mjs';
+
+const rule = plugin.rule;
+const messages = plugin.rule.messages;
+
 let accept = [], reject = [];
 
 /* Test basic checks
 /* ========================================================================== */
 
-testRule({ plugins: ['.'], ruleName, config: null });
-testRule({ plugins: ['.'], ruleName, config: false });
-testRule({ plugins: ['.'], ruleName, config: true });
+testRule({ plugins: ['.'], ruleName: rule.ruleName, config: null, accept: [{ code: '' }] });
+testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept: [{ code: '' }] });
 
 /* Test disabled
 /* ========================================================================== */
@@ -16,7 +20,7 @@ accept = [
 	{ code: 'body { color: var(--brand-blue); }', description: 'ignored custom property' },
 ];
 
-testRule({ plugins: ['.'], ruleName, skipBasicChecks, config: null, accept });
+testRule({ plugins: ['.'], ruleName: rule.ruleName, config: null, accept });
 
 /* Test enabled
 /* ========================================================================== */
@@ -36,7 +40,7 @@ reject = [
 	{ code: '@import \'./test/import-custom-properties123.css\'; body { color: var(--brand-red); }', message: messages.unexpected('--brand-red', 'color') },
 ];
 
-testRule({ plugins: ['.'], ruleName, skipBasicChecks, config: true, accept, reject });
+testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept, reject });
 
 
 /* Test fallbacks
@@ -48,7 +52,7 @@ accept = [
 reject = [
 	{ code: 'body { color: var(--brand-blue, var(--brand-red)); }', message: messages.unexpected('--brand-red', 'color') },
 ];
-testRule({ plugins: ['.'], ruleName, skipBasicChecks, config: true, accept, reject });
+testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept, reject });
 
 /* Test enabled: not var()s
 /* ========================================================================== */
@@ -58,7 +62,7 @@ accept = [
 	{ code: 'body { color: var(); }' },
 ];
 
-testRule({ plugins: ['.'], ruleName, skipBasicChecks, config: true, accept });
+testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept });
 
 /* Test enabled: { importFrom }
 /* ========================================================================== */
@@ -73,7 +77,7 @@ reject = [
 
 testRule({
 	plugins: ['.'],
-	ruleName,
+	ruleName: rule.ruleName,
 	config: [true, {
 		importFrom: {
 			customProperties: {
@@ -81,34 +85,39 @@ testRule({
 			},
 		},
 	}],
-	skipBasicChecks,
+	accept,
+	reject,
 });
 
 accept = [
-	{ code: 'body { background-color: var(--brand-red); background: var(--brand-green); border-color: var(--brand-white); color: var(--brand-blue); }' },
+	{ code: 'body { background-color: var(--brand-red); background: var(--brand-green); color: var(--brand-blue); }' },
 ];
 reject = [
 	{ code: 'body { color: var(--brand-blu); }', message: messages.unexpected('--brand-blu', 'color') },
 	{ code: 'body { color: var(--brand-bluez); }', message: messages.unexpected('--brand-bluez', 'color') },
 ];
 
-/*
-FIXME: This creates a segmentation fault in node
-
 testRule({
 	plugins: ['.'],
-	ruleName,
+	ruleName: rule.ruleName,
 	config: [true, {
 		importFrom: [
-			'./test/import-custom-properties.js',
 			'./test/import-custom-properties.json',
 			'./test/import-custom-properties.css',
 		],
 	}],
-	skipBasicChecks,
 	accept,
 	reject,
 });
+
+accept = [
+	{ code: 'body { border-color: var(--brand-white); }' },
+];
+
+testRule({ plugins: ['.'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/dummy-module-package/import-custom-properties.js'] }], accept, reject });
+testRule({ plugins: ['.'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/dummy-package/import-custom-properties.js'] }], accept, reject });
+testRule({ plugins: ['.'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/import-custom-properties.cjs'] }], accept, reject });
+testRule({ plugins: ['.'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/import-custom-properties.mjs'] }], accept, reject });
 
 accept = [
 	{ code: '@import "import-custom-properties-absolute.css"; body { background-color: var(--brand-red); background: var(--brand-green); }' },
@@ -117,14 +126,12 @@ reject = [];
 
 testRule({
 	plugins: ['.'],
-	ruleName,
+	ruleName: rule.ruleName,
 	config: [true, {
 		resolver: {
 			paths: './test',
 		},
 	}],
-	skipBasicChecks,
 	accept,
 	reject,
 });
-*/

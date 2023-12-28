@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import postcss from 'postcss';
-import { resolveId } from './resolve-id';
+import { resolveId } from './resolve-id.mjs';
 
 // return custom selectors from the css root, conditionally removing them
 export default async function getCustomPropertiesFromRoot(root, resolver) {

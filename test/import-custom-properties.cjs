@@ -1,5 +1,5 @@
 module.exports = {
 	customProperties: {
-		'--brand-white': 'white'
-	}
-}
+		'--brand-white': 'white',
+	},
+};

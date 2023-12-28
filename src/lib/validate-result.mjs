@@ -1,4 +1,4 @@
-import validateDecl from './validate-decl';
+import validateDecl from './validate-decl.mjs';
 
 // validate the css root
 export default (result, customProperties) => {

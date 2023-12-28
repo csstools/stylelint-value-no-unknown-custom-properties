@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import postcss from 'postcss';
-import getCustomPropertiesFromRoot from './get-custom-properties-from-root';
+import getCustomPropertiesFromRoot from './get-custom-properties-from-root.mjs';
 
 /* Get Custom Properties from CSS File
 /* ========================================================================== */
@@ -38,6 +38,9 @@ async function getCustomPropertiesFromJSONFile(from) {
 
 async function getCustomPropertiesFromJSFile(from) {
 	const object = await import(from);
+	if ('default' in object) {
+		return getCustomPropertiesFromObject(object.default);
+	}
 
 	return getCustomPropertiesFromObject(object);
 }
@@ -75,7 +78,7 @@ export default function getCustomPropertiesFromSources(sources, resolver) {
 			return Object.assign(await customProperties, await getCustomPropertiesFromCSSFile(from, resolver));
 		}
 
-		if (type === 'js') {
+		if (type === 'js' || type === 'mjs' || type === 'cjs') {
 			return Object.assign(await customProperties, await getCustomPropertiesFromJSFile(from));
 		}
 

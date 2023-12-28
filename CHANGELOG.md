@@ -1,5 +1,10 @@
 # Changes to Stylelint Value No Unknown Custom Properties
 
+### 6.0.0 (Dec 28, 2023)
+
+ - Updated: peer `stylelint` to >=16 (breaking)
+ - Removed `false` option, use `null` instead
+
 ### 5.0.0 (November 6, 2023)
 
 - Ensure this can work with Stylelint 15 too. (thanks [@alex-e-leon](https://github.com/alex-e-leon)!)
