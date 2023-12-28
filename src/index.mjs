@@ -5,6 +5,10 @@ import validateResult from './lib/validate-result.mjs';
 import messages from './lib/messages.mjs';
 import ruleName from './lib/rule-name.mjs';
 
+const meta = {
+	url: 'https://github.com/csstools/stylelint-value-no-unknown-custom-properties/blob/main/README.md',
+};
+
 const ruleFunction = (method, opts) => {
 	// sources to import custom selectors from
 	const importFrom = [].concat(Object(opts).importFrom || []);
@@ -39,6 +43,7 @@ const ruleFunction = (method, opts) => {
 
 ruleFunction.ruleName = ruleName;
 ruleFunction.messages = messages;
+ruleFunction.meta = meta;
 
 export default stylelint.createPlugin(ruleName, ruleFunction);
 
