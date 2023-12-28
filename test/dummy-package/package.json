@@ -1,3 +1,4 @@
 {
-  "name": "dummy-package"
+  "name": "dummy-package",
+  "private": true
 }
