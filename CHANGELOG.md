@@ -1,6 +1,6 @@
 # Changes to Stylelint Value No Unknown Custom Properties
 
-### Unreleased
+### 6.0.1 (Dec 28, 2023)
 
 - Fix `@import` prelude parsing
 
