@@ -1,13 +1,13 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import postcss from 'postcss';
-import getCustomPropertiesFromRoot from './get-custom-properties-from-root';
+import getCustomPropertiesFromRoot from './get-custom-properties-from-root.mjs';
 
 /* Get Custom Properties from CSS File
 /* ========================================================================== */
 
 async function getCustomPropertiesFromCSSFile(from, resolver) {
-	const css = await readFile(from);
+	const css = await fs.readFile(from, 'utf-8');
 	const root = postcss.parse(css, { from });
 
 	return await getCustomPropertiesFromRoot(root, resolver);
@@ -17,13 +17,11 @@ async function getCustomPropertiesFromCSSFile(from, resolver) {
 /* ========================================================================== */
 
 function getCustomPropertiesFromObject(object) {
-	const customProperties = Object.assign(
+	return Object.assign(
 		{},
-		Object(object).customProperties,
-		Object(object)['custom-properties']
+		Object( object ).customProperties,
+		Object( object )[ 'custom-properties' ],
 	);
-
-	return customProperties;
 }
 
 /* Get Custom Properties from JSON file
@@ -40,6 +38,9 @@ async function getCustomPropertiesFromJSONFile(from) {
 
 async function getCustomPropertiesFromJSFile(from) {
 	const object = await import(from);
+	if ('default' in object) {
+		return getCustomPropertiesFromObject(object.default);
+	}
 
 	return getCustomPropertiesFromObject(object);
 }
@@ -60,7 +61,7 @@ export default function getCustomPropertiesFromSources(sources, resolver) {
 
 		// skip objects with Custom Properties
 		if (opts.customProperties || opts['custom-properties']) {
-			return opts
+			return opts;
 		}
 
 		// source pathname
@@ -77,7 +78,7 @@ export default function getCustomPropertiesFromSources(sources, resolver) {
 			return Object.assign(await customProperties, await getCustomPropertiesFromCSSFile(from, resolver));
 		}
 
-		if (type === 'js') {
+		if (type === 'js' || type === 'mjs' || type === 'cjs') {
 			return Object.assign(await customProperties, await getCustomPropertiesFromJSFile(from));
 		}
 
@@ -91,15 +92,4 @@ export default function getCustomPropertiesFromSources(sources, resolver) {
 
 /* Promise-ified utilities
 /* ========================================================================== */
-
-const readFile = from => new Promise((resolve, reject) => {
-	fs.readFile(from, 'utf8', (error, result) => {
-		if (error) {
-			reject(error);
-		} else {
-			resolve(result);
-		}
-	});
-});
-
-const readJSON = async from => JSON.parse(await readFile(from));
+const readJSON = async from => JSON.parse(await fs.readFile(from, 'utf-8'));

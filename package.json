@@ -1,56 +1,37 @@
 {
   "name": "stylelint-value-no-unknown-custom-properties",
-  "version": "4.0.0",
+  "version": "6.0.0",
   "description": "A stylelint rule to disallow usage of unknown custom properties",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
   "repository": "csstools/stylelint-value-no-unknown-custom-properties",
   "homepage": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties#readme",
   "bugs": "https://github.com/csstools/stylelint-value-no-unknown-custom-properties/issues",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.mjs"
-    }
-  },
+  "type": "module",
+  "main": "src/index.mjs",
   "files": [
-    "CHANGELOG.md",
-    "LICENSE.md",
-    "README.md",
-    "dist"
+    "src"
   ],
   "scripts": {
     "prepublishOnly": "npm test",
-    "pretest": "rollup -c .rollup.js --silent",
-    "test": "npm run test:js && npm run test:jest",
-    "test:js": "eslint src/*.js --cache --ignore-path .gitignore --quiet",
-    "test:jest": "jest"
+    "test": "npm run lint && node --test index.test.mjs",
+    "lint": "eslint src/**/*.mjs *.mjs --cache --ignore-path .gitignore --quiet"
   },
   "engines": {
-    "node": "^12 || ^14 || >=16"
+    "node": ">=18.12.0"
   },
   "dependencies": {
     "postcss-value-parser": "^4.2.0",
-    "resolve": "^1.22.0"
+    "resolve": "^1.22.8"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.8",
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/plugin-transform-runtime": "^7.17.0",
-    "@babel/preset-env": "^7.16.11",
-    "@rollup/plugin-babel": "^5.3.1",
-    "eslint": "^8.11.0",
-    "eslint-config-dev": "^2.0.0",
-    "jest": "^27.5.1",
-    "jest-preset-stylelint": "^5.0.1",
-    "rollup": "^2.70.1",
-    "stylelint": "^14.6.0"
+    "eslint": "^8.53.0",
+    "eslint-config-dev": "^3.3.1",
+    "stylelint": "^16.1.0",
+    "stylelint-test-rule-node": "^0.2.1"
   },
   "peerDependencies": {
-    "stylelint": "10 - 14"
+    "stylelint": ">=16"
   },
   "eslintConfig": {
     "env": {
@@ -87,9 +68,6 @@
       "sourceType": "module"
     },
     "root": true
-  },
-  "jest": {
-    "preset": "jest-preset-stylelint"
   },
   "keywords": [
     "stylelint",

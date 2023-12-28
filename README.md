@@ -23,7 +23,7 @@ Add [Stylelint Value No Unknown Custom Properties] to your [stylelint configurat
     "stylelint-value-no-unknown-custom-properties"
   ],
   "rules": {
-    "csstools/value-no-unknown-custom-properties": true || false || null
+    "csstools/value-no-unknown-custom-properties": true || null
   }
 }
 ```
@@ -79,9 +79,9 @@ While the following patterns are considered violations:
 
 Custom Properties can be imported using the second option.
 
-### false
+### `null`
 
-If the first option is `false` or `null`, then
+If the first option is `null`, then
 [Stylelint Value No Unknown Custom Properties] does nothing.
 
 ---
