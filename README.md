@@ -93,6 +93,10 @@ where Custom Properties should be imported from by using an `importFrom` key.
 These imports might be CSS, JS, and JSON files, functions, and directly passed
 objects.
 
+The plugin resolves relative paths from the current working directory
+which may not work in monorepos, in which case it is best to pass only absolute
+paths to the plugin.
+
 ```js
 // .stylelintrc
 {
