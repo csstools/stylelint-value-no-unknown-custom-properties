@@ -128,7 +128,7 @@ Use this option to configure how the rule solve paths of `@import` rules.
     "csstools/value-no-unknown-custom-properties": [true, {
       "resolver": {
         "extensions": [".css"], // => default to [".css"]
-        "paths": ["./assets/css", "./static/css"] // => paths to look for files, default to []
+        "paths": ["./assets/css", "./static/css"], // => paths to look for files, default to []
         "moduleDirectories": ["node_modules"] // => modules folder to look for files, default to ["node_modules"]
       }
     }]
