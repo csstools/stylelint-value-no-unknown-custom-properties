@@ -1,9 +1,9 @@
 import validateDecl from './validate-decl.mjs';
 
 // validate the css root
-export default (result, customProperties) => {
+export default (root, result, customProperties) => {
 	// validate each declaration
-	result.root.walkDecls(decl => {
+	root.walkDecls(decl => {
 		if (hasCustomPropertyReference(decl)) {
 			validateDecl(decl, { result, customProperties });
 		}
