@@ -36,7 +36,8 @@ const validateValueAST = (ast, { result, customProperties, decl }) => {
 
 			// report unknown custom properties
 			stylelint.utils.report({
-				message: messages.unexpected(propertyName, decl.prop),
+				message: messages.unexpected,
+				messageArgs: [propertyName, decl.prop],
 				node: decl,
 				result,
 				ruleName,

@@ -7,7 +7,7 @@ import { resolveId } from './resolve-id.mjs';
 // return custom selectors from the css root, conditionally removing them
 export default async function getCustomPropertiesFromRoot(root, resolver) {
 	// initialize custom selectors
-	let customProperties = {};
+	let customProperties = Object(null);
 
 	// resolve current file directory
 	let sourceDir = process.cwd();
@@ -38,6 +38,79 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 		}
 	});
 
+	root.walkAtRules('property', atRule => {
+		console.log(atRule);
+
+
+		const nodes = valueParser(atRule.params).nodes;
+		const names = [];
+
+		for (let i = 0; i < nodes.length; i++) {
+			let node = nodes[i];
+
+			if (node.type === 'word' && node.value.startsWith('--')) {
+				names.push(node.value);
+
+				while (!(node.type === 'div' && node.value === ',')) {
+					i++;
+					node = nodes[i];
+
+					if (!node) {
+						break;
+					}
+				}
+			}
+		}
+
+		const atProperty = {
+			inherits: undefined,
+			syntax: undefined,
+			initialValue: undefined,
+		};
+
+		atRule.each((descriptor) => {
+			if (descriptor.type !== 'decl') {
+				return;
+			}
+
+			switch (descriptor.prop) {
+				case 'initial-value':
+					atProperty.initialValue = descriptor.value;
+					return;
+				case 'syntax':
+					atProperty.syntax = descriptor.value.trim();
+					break;
+				case 'inherits':
+					atProperty.inherits = descriptor.value.trim();
+					break;
+			}
+		});
+
+		if (typeof atProperty.inherits === 'undefined' ||
+			typeof atProperty.syntax === 'undefined'
+		) {
+
+			return;
+		}
+
+		if (atProperty.syntax === '*' || atProperty.syntax === '\'*\'' || atProperty.syntax === '"*"') {
+			names.forEach((name) => {
+				customProperties[name] = {};
+			});
+
+			return;
+		}
+
+		if (typeof atProperty.initialValue === 'undefined') {
+
+			return;
+		}
+
+		names.forEach((name) => {
+			customProperties[name] = {};
+		});
+	});
+
 	(await Promise.all(importPromises)).forEach(propertiesFromImport => {
 		customProperties = Object.assign(customProperties, propertiesFromImport);
 	});
@@ -49,7 +122,7 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 		}
 
 		// write the parsed value to the custom property
-		customProperties[decl.prop] = decl.value;
+		customProperties[decl.prop] = {};
 	});
 
 	// return all custom properties, preferring :root properties over html properties

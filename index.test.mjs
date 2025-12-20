@@ -32,6 +32,9 @@ accept = [
 	{ code: '* { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
 	{ code: '.anything { --brand-blue: #33f; } body { color: var(--brand-blue); }' },
 	{ code: ':root { --brand-blue: #33f; --brand-color: var(--brand-blue); }' },
+	{ code: '@property --brand-blue { inherits: false; syntax: "<color>"; initial-value: blue; } .foo { color: var(--brand-blue); }' },
+	{ code: '@property --brand-blue { inherits: false; syntax: "*"; } .foo { color: var(--brand-blue); }' },
+	{ code: '@property --brand-blue, --brand-red { inherits: false; syntax: "*"; } .foo { color: var(--brand-blue); color: var(--brand-red); }' },
 	{ code: '@import \'./test/import-custom-properties.css\'; body { color: var(--brand-red); }' },
 	{ code: '@import "./test/import-custom-properties.css" screen; body { color: var(--brand-red); }' },
 	{ code: '@import "./test/import-custom-properties.css"/**/; body { color: var(--brand-red); }' },
@@ -48,6 +51,14 @@ accept = [
 reject = [
 	{ code: 'body { color: var(--brand-blue); }', message: messages.unexpected('--brand-blue', 'color') },
 	{ code: '@import \'./test/import-custom-properties123.css\'; body { color: var(--brand-red); }', message: messages.unexpected('--brand-red', 'color') },
+	{
+		code: '@property --brand-blue { inherits: false; syntax: "<color>"; } .foo { color: var(--brand-blue); }',
+		message: messages.unexpected('--brand-blue', 'color'),
+	},
+	{
+		code: '@property --brand-red --brand-blue { inherits: false; syntax: "<color>"; initial-value: red; } .foo { color: var(--brand-blue); }',
+		message: messages.unexpected('--brand-blue', 'color'),
+	},
 ];
 
 testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept, reject });

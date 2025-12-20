@@ -1,6 +1,6 @@
 {
   "name": "stylelint-value-no-unknown-custom-properties",
-  "version": "6.0.1",
+  "version": "6.1.0",
   "description": "A stylelint rule to disallow usage of unknown custom properties",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
@@ -27,8 +27,8 @@
   "devDependencies": {
     "eslint": "^8.53.0",
     "eslint-config-dev": "^3.3.1",
-    "stylelint": "^16.1.0",
-    "stylelint-test-rule-node": "^0.2.1"
+    "stylelint": "^16.26.1",
+    "stylelint-test-rule-node": "^0.4.0"
   },
   "peerDependencies": {
     "stylelint": ">=16"

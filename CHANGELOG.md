@@ -1,5 +1,11 @@
 # Changes to Stylelint Value No Unknown Custom Properties
 
+### 6.1.0 (Dec 20, 2025)
+
+- Add support for `@property`
+- Add support for custom messages
+- Fix issues are reported repeatedly
+
 ### 6.0.1 (Dec 28, 2023)
 
 - Fix `@import` prelude parsing
