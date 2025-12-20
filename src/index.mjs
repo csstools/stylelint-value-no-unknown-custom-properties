@@ -36,7 +36,7 @@ const ruleFunction = (method, opts) => {
 			);
 
 			// validate the css root
-			validateResult(result, customProperties);
+			validateResult(root, result, customProperties);
 		}
 	};
 };
