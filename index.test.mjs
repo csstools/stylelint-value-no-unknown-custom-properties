@@ -10,8 +10,8 @@ let accept = [], reject = [];
 /* Test basic checks
 /* ========================================================================== */
 
-testRule({ plugins: ['.'], ruleName: rule.ruleName, config: null, accept: [{ code: '' }] });
-testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept: [{ code: '' }] });
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: null, accept: [{ code: '' }] });
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: true, accept: [{ code: '' }] });
 
 /* Test disabled
 /* ========================================================================== */
@@ -20,7 +20,7 @@ accept = [
 	{ code: 'body { color: var(--brand-blue); }', description: 'ignored custom property' },
 ];
 
-testRule({ plugins: ['.'], ruleName: rule.ruleName, config: null, accept });
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: null, accept });
 
 /* Test enabled
 /* ========================================================================== */
@@ -61,7 +61,7 @@ reject = [
 	},
 ];
 
-testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept, reject });
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: true, accept, reject });
 
 
 /* Test fallbacks
@@ -73,7 +73,7 @@ accept = [
 reject = [
 	{ code: 'body { color: var(--brand-blue, var(--brand-red)); }', message: messages.unexpected('--brand-red', 'color') },
 ];
-testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept, reject });
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: true, accept, reject });
 
 /* Test enabled: not var()s
 /* ========================================================================== */
@@ -83,7 +83,7 @@ accept = [
 	{ code: 'body { color: var(); }' },
 ];
 
-testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept });
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: true, accept });
 
 /* Test enabled: { importFrom }
 /* ========================================================================== */
@@ -97,7 +97,7 @@ reject = [
 ];
 
 testRule({
-	plugins: ['.'],
+	plugins: ['./src/index.mjs'],
 	ruleName: rule.ruleName,
 	config: [true, {
 		importFrom: {
@@ -119,7 +119,7 @@ reject = [
 ];
 
 testRule({
-	plugins: ['.'],
+	plugins: ['./src/index.mjs'],
 	ruleName: rule.ruleName,
 	config: [true, {
 		importFrom: [
@@ -135,10 +135,10 @@ accept = [
 	{ code: 'body { border-color: var(--brand-white); }' },
 ];
 
-testRule({ plugins: ['.'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/dummy-module-package/import-custom-properties.js'] }], accept, reject });
-testRule({ plugins: ['.'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/dummy-package/import-custom-properties.js'] }], accept, reject });
-testRule({ plugins: ['.'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/import-custom-properties.cjs'] }], accept, reject });
-testRule({ plugins: ['.'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/import-custom-properties.mjs'] }], accept, reject });
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/dummy-module-package/import-custom-properties.js'] }], accept, reject });
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/dummy-package/import-custom-properties.js'] }], accept, reject });
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/import-custom-properties.cjs'] }], accept, reject });
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: [true, { importFrom: ['./test/import-custom-properties.mjs'] }], accept, reject });
 
 accept = [
 	{ code: '@import "import-custom-properties-absolute.css"; body { background-color: var(--brand-red); background: var(--brand-green); }' },
@@ -146,7 +146,7 @@ accept = [
 reject = [];
 
 testRule({
-	plugins: ['.'],
+	plugins: ['./src/index.mjs'],
 	ruleName: rule.ruleName,
 	config: [true, {
 		resolver: {
