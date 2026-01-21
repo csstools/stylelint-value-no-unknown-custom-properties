@@ -1,5 +1,9 @@
 # Changes to Stylelint Value No Unknown Custom Properties
 
+### 6.1.1 (Jan 21, 2026)
+
+- Remove rogue `console.log` call
+
 ### 6.1.0 (Dec 20, 2025)
 
 - Add support for `@property`

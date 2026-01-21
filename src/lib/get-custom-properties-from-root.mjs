@@ -39,9 +39,6 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 	});
 
 	root.walkAtRules('property', atRule => {
-		console.log(atRule);
-
-
 		const nodes = valueParser(atRule.params).nodes;
 		const names = [];
 
