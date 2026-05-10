@@ -18,7 +18,7 @@ export default async function getCustomPropertiesFromRoot(root, resolver) {
 	// recursively add custom properties from @import statements
 	const importPromises = [];
 	root.walkAtRules('import', atRule => {
-		const fileName = parseImportParams(atRule.params);
+		const fileName = unprefixModuleTilde(parseImportParams(atRule.params) ?? '');
 		if (!fileName) {
 			return;
 		}
@@ -176,4 +176,12 @@ function parseImportParams(params) {
 	}
 
 	return false;
+}
+
+/**
+ * Raw CSS imports may be prefixed with ~, especially in Webpack or Stencil contexts. 
+ * This function removes the prefix before trying to read the file. 
+ */
+function unprefixModuleTilde(path) {
+	return path.replace(/^~/, '');
 }
