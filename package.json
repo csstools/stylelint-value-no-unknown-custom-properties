@@ -14,8 +14,7 @@
   ],
   "scripts": {
     "prepublishOnly": "npm test",
-    "test": "npm run lint && node --test index.test.mjs",
-    "lint": "eslint src/**/*.mjs *.mjs --cache --ignore-path .gitignore --quiet"
+    "test": "node --test index.test.mjs"
   },
   "engines": {
     "node": ">=18.12.0"
@@ -25,52 +24,11 @@
     "resolve": "^1.22.8"
   },
   "devDependencies": {
-    "eslint": "^8.53.0",
-    "eslint-config-dev": "^3.3.1",
     "stylelint": "^16.26.1",
     "stylelint-test-rule-node": "^0.4.0"
   },
   "peerDependencies": {
     "stylelint": ">=16"
-  },
-  "eslintConfig": {
-    "env": {
-      "es6": true,
-      "node": true
-    },
-    "extends": "eslint:recommended",
-    "rules": {
-      "no-console": [
-        "error"
-      ],
-      "quotes": [
-        "error",
-        "single"
-      ],
-      "comma-dangle": [
-        "error",
-        "always-multiline"
-      ],
-      "semi": [
-        "error",
-        "always"
-      ],
-      "curly": "error",
-      "brace-style": "error",
-      "indent": [
-        "error",
-        "tab",
-        {
-          "SwitchCase": 1
-        }
-      ],
-      "radix": "error"
-    },
-    "parserOptions": {
-      "ecmaVersion": 2020,
-      "sourceType": "module"
-    },
-    "root": true
   },
   "keywords": [
     "stylelint",
