@@ -1,5 +1,9 @@
 # Changes to Stylelint Value No Unknown Custom Properties
 
+### 6.2.0
+
+- Add `checkVarsWithFallbacks` option to report custom properties as unknown even when a `var()` provides a fallback
+
 ### 6.1.1 (Jan 21, 2026)
 
 - Remove rogue `console.log` call
