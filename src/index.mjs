@@ -13,6 +13,8 @@ const ruleFunction = (method, opts) => {
 	// sources to import custom selectors from
 	const importFrom = [].concat(Object(opts).importFrom || []);
 	const resolver = Object(opts).resolver || {};
+	// whether a var() carrying a fallback still has its first argument checked
+	const checkFallbacks = Object(opts).checkFallbacks === true;
 
 	// promise any custom selectors are imported
 	const customPropertiesPromise = isMethodEnabled(method)
@@ -36,7 +38,7 @@ const ruleFunction = (method, opts) => {
 			);
 
 			// validate the css root
-			validateResult(root, result, customProperties);
+			validateResult(root, result, customProperties, checkFallbacks);
 		}
 	};
 };

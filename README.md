@@ -136,6 +136,36 @@ Use this option to configure how the rule solve paths of `@import` rules.
 }
 ```
 
+### checkFallbacks
+
+By default, a `var()` that carries a fallback is not checked, since the
+fallback answers for a custom property nothing declares. Set `checkFallbacks`
+to `true` to check the first argument all the same, so a misspelt name does
+not pass unnoticed behind its fallback. The `var()` functions inside the
+fallback are checked either way.
+
+```js
+// .stylelintrc
+{
+  "plugins": [
+    "stylelint-value-no-unknown-custom-properties"
+  ],
+  "rules": {
+    "csstools/value-no-unknown-custom-properties": [true, {
+      "checkFallbacks": true
+    }]
+  }
+}
+```
+
+With the option on, the following pattern is considered a violation:
+
+```css
+.example {
+  color: var(--brand-blue, #33f);
+}
+```
+
 [discord]: https://discord.gg/bUadyRwkJS
 [discord-badge]: https://shields.io/badge/Discord-5865F2?logo=discord&logoColor=white
 [test-badge]: https://github.com/csstools/stylelint-value-no-unknown-custom-properties/actions/workflows/test.yml/badge.svg

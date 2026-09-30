@@ -1,5 +1,9 @@
 # Changes to Stylelint Value No Unknown Custom Properties
 
+### Unreleased
+
+- Add the `checkFallbacks` option, to check the first argument of a `var()` even when a fallback follows
+
 ### 6.1.1 (Jan 21, 2026)
 
 - Remove rogue `console.log` call

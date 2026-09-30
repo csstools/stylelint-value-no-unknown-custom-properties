@@ -75,6 +75,19 @@ reject = [
 ];
 testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: true, accept, reject });
 
+/* Test fallbacks: { checkFallbacks }
+/* ========================================================================== */
+
+accept = [
+	{ code: 'body { --brand-blue: #33f; color: var(--brand-blue, #33f); }', description: 'known custom property with a fallback' },
+	{ code: ':root { --brand-blue: #33f; --brand-red: #f33; } body { color: var(--brand-blue, var(--brand-red)); }', description: 'known custom property falling back to a known one' },
+];
+reject = [
+	{ code: 'body { color: var(--brand-blue, #33f); }', message: messages.unexpected('--brand-blue', 'color'), description: 'unknown custom property despite the fallback' },
+	{ code: ':root { --brand-blue: #33f; } body { color: var(--brand-blue, var(--brand-red)); }', message: messages.unexpected('--brand-red', 'color'), description: 'unknown custom property inside the fallback' },
+];
+testRule({ plugins: ['./src/index.mjs'], ruleName: rule.ruleName, config: [true, { checkFallbacks: true }], accept, reject });
+
 /* Test enabled: not var()s
 /* ========================================================================== */
 

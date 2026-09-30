@@ -4,14 +4,14 @@ import ruleName from './rule-name.mjs';
 import messages from './messages.mjs';
 
 // validate css declarations
-export default (decl, { result, customProperties }) => {
+export default (decl, { result, customProperties, checkFallbacks }) => {
 	const valueAST = valueParser(decl.value);
 
-	validateValueAST(valueAST, { result, customProperties, decl });
+	validateValueAST(valueAST, { result, customProperties, decl, checkFallbacks });
 };
 
 // validate a value ast
-const validateValueAST = (ast, { result, customProperties, decl }) => {
+const validateValueAST = (ast, { result, customProperties, decl, checkFallbacks }) => {
 	const isValid = typeof ast?.walk === 'function';
 
 	if (!isValid) {
@@ -27,9 +27,9 @@ const validateValueAST = (ast, { result, customProperties, decl }) => {
 				return;
 			}
 
-			// conditionally test fallbacks
-			if (fallbacks.length) {
-				validateValueAST({ nodes: fallbacks.filter(isVarFunction) }, { result, customProperties, decl });
+			// conditionally test fallbacks, unless the first argument is to be checked regardless
+			if (fallbacks.length && !checkFallbacks) {
+				validateValueAST({ nodes: fallbacks.filter(isVarFunction) }, { result, customProperties, decl, checkFallbacks });
 
 				return;
 			}
